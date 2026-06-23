@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "lib": ["DOM", "ES2022"],
+    "paths": { "@/*": ["./src/*"] }
+  },
+  "include": ["src", "next-env.d.ts"]
+}
