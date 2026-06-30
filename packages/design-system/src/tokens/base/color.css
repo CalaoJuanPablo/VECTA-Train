@@ -18,6 +18,8 @@
     --vt-color-positive: var(--vt-color-accent);
     --vt-color-warning: #ff6b4a;
     --vt-color-info: #5bc8ff;
+    --vt-color-danger: #ff5a4a;
+    --vt-color-text-danger: var(--vt-color-danger);
 
     /* ---- Provider brand ---------------------------------------------- */
     --vt-color-strava: #fc5200;

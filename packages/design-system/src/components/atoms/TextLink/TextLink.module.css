@@ -1,0 +1,28 @@
+@import '../../../layers.css';
+
+@layer core {
+  .link {
+    appearance: none;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    font-family: var(--vt-font-ui);
+    font-size: inherit;
+    font-weight: var(--vt-font-weight-medium);
+    color: var(--vt-color-accent-strong);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .link:hover {
+    text-decoration: underline;
+  }
+
+  .link:focus-visible {
+    outline: none;
+    border-radius: var(--vt-radius-xs);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--vt-color-accent) 40%, transparent);
+  }
+}

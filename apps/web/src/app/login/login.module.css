@@ -1,0 +1,74 @@
+@import '@vecta/design-system/src/layers.css';
+
+@layer core {
+  .page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--vt-space-6);
+    background-color: var(--vt-color-surface-app);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 420px;
+    padding: var(--vt-space-10);
+    background-color: var(--vt-color-surface);
+    border: 1px solid var(--vt-color-border-subtle);
+    border-radius: var(--vt-radius-xl);
+    box-shadow: var(--vt-shadow-md);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vt-space-6);
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vt-space-2);
+    text-align: center;
+  }
+
+  .title {
+    margin: 0;
+    font-size: var(--vt-font-size-h1);
+    font-weight: var(--vt-font-weight-semibold);
+    color: var(--vt-color-text-primary);
+  }
+
+  .subtitle {
+    margin: 0;
+    font-size: var(--vt-font-size-sm);
+    color: var(--vt-color-text-secondary);
+  }
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vt-space-5);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--vt-space-4);
+  }
+
+  .forgot {
+    display: flex;
+    justify-content: flex-end;
+    font-size: var(--vt-font-size-sm);
+    margin-top: calc(-1 * var(--vt-space-2));
+  }
+
+  .switch {
+    margin: 0;
+    text-align: center;
+    font-size: var(--vt-font-size-sm);
+    color: var(--vt-color-text-secondary);
+  }
+}
