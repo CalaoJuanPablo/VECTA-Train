@@ -1,4 +1,39 @@
 {
   "name": "@vecta/design-system",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/components/index.ts",
+  "types": "./src/components/index.ts",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "10.4.6",
+    "@storybook/addon-docs": "10.4.6",
+    "@storybook/react-vite": "10.4.6",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.3",
+    "jsdom": "29.1.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "storybook": "10.4.6",
+    "typescript": "6.0.3",
+    "vite": "8.1.0",
+    "vitest": "4.1.9"
+  }
 }
