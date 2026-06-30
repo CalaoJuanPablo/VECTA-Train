@@ -1,0 +1,9 @@
+@import '../../layers.css';
+
+@layer tokens {
+  html {
+    --vt-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --vt-duration-fast: 120ms;
+    --vt-duration-base: 200ms;
+  }
+}

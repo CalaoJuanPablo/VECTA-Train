@@ -1,0 +1,8 @@
+@import '../../layers.css';
+
+@layer tokens {
+  html {
+    --vt-max-content: 1120px;
+    --vt-sidebar-width: 220px;
+  }
+}

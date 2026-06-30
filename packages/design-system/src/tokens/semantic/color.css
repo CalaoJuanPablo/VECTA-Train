@@ -1,0 +1,20 @@
+@import '../../layers.css';
+
+@layer tokens {
+  html {
+    /* Surfaces — flip between themes */
+    --vt-color-surface-app: light-dark(#fafaf8, #131311);
+    --vt-color-surface: light-dark(#ffffff, #1c1c18);
+    --vt-color-surface-raised: light-dark(#fafaf8, #22221c);
+    --vt-color-surface-sunken: light-dark(#eeece3, #181813);
+
+    /* Borders — flip between themes */
+    --vt-color-border-subtle: light-dark(#e8e6de, #2a2a25);
+    --vt-color-border-strong: light-dark(#ddd9cc, #3a3a30);
+    --vt-color-border-dashed: light-dark(#ddd9cc, #3a3a30);
+
+    /* Shadows — flip between themes */
+    --vt-shadow-sm: light-dark(0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.18));
+    --vt-shadow-md: light-dark(0 8px 30px rgba(0, 0, 0, 0.1), 0 8px 30px rgba(0, 0, 0, 0.18));
+  }
+}

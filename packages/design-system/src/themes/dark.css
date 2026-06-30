@@ -1,0 +1,5 @@
+@import '../layers.css';
+
+@layer theme {
+  /* Default theme: empty. Base + semantic tokens encode the default brand. */
+}
