@@ -4,7 +4,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@vecta/design-system": "workspace:*",
@@ -16,6 +19,11 @@
   "devDependencies": {
     "@types/node": "26.0.0",
     "@types/react": "19.2.17",
-    "typescript": "6.0.3"
+    "@vitejs/plugin-react": "6.0.3",
+    "eslint": "10.6.0",
+    "@vecta/eslint-config": "workspace:*",
+    "jsdom": "29.1.1",
+    "typescript": "6.0.3",
+    "vitest": "4.1.9"
   }
 }
