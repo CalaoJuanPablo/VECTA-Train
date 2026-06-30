@@ -5,20 +5,20 @@ describes the role, so theme switching and future retuning stay automatic.
 
 ## Color decision rules
 
-| You're styling… | Use |
-|---|---|
-| Page background | `--vt-color-surface-app` |
-| A card, panel, list item container | `--vt-color-surface` |
-| A nested box or hover state inside a card | `--vt-color-surface-raised` |
-| An input field, progress track, or "well" | `--vt-color-surface-sunken` |
-| A default hairline divider/border | `--vt-color-border-subtle` |
-| A focused/active/interactive border | `--vt-color-border-strong` |
-| Main text (headings, values) | `--vt-color-text-primary` |
-| Supporting text, axis labels | `--vt-color-text-secondary` |
-| Labels, captions, metadata | `--vt-color-text-muted` |
-| Placeholder, disabled, faint hints | `--vt-color-text-faint` / `--vt-color-text-disabled` |
-| A primary action / TRIMP / "good" state | `--vt-color-accent` |
-| Text/icon sitting on an accent fill | `--vt-color-on-accent` |
+| You're styling…                           | Use                                                  |
+| ----------------------------------------- | ---------------------------------------------------- |
+| Page background                           | `--vt-color-surface-app`                             |
+| A card, panel, list item container        | `--vt-color-surface`                                 |
+| A nested box or hover state inside a card | `--vt-color-surface-raised`                          |
+| An input field, progress track, or "well" | `--vt-color-surface-sunken`                          |
+| A default hairline divider/border         | `--vt-color-border-subtle`                           |
+| A focused/active/interactive border       | `--vt-color-border-strong`                           |
+| Main text (headings, values)              | `--vt-color-text-primary`                            |
+| Supporting text, axis labels              | `--vt-color-text-secondary`                          |
+| Labels, captions, metadata                | `--vt-color-text-muted`                              |
+| Placeholder, disabled, faint hints        | `--vt-color-text-faint` / `--vt-color-text-disabled` |
+| A primary action / TRIMP / "good" state   | `--vt-color-accent`                                  |
+| Text/icon sitting on an accent fill       | `--vt-color-on-accent`                               |
 
 ## Data-viz palette
 

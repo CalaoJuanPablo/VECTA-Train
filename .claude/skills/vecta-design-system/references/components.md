@@ -13,6 +13,7 @@ src/components/<Name>/
 ```
 
 Rules:
+
 - The component owns its layout and variants; it never sets page-level margins.
 - `.module.css` references only `var(--vt-...)` tokens — no literals.
 - Variants are props mapped to classes, not boolean style soup.
@@ -25,9 +26,9 @@ Use role names: `.root` for the top element, then descriptive parts
 (`.primary`, `.ghost`, `.danger`) toggled via a lookup, e.g.:
 
 ```tsx
-import s from "./Button.module.css";
+import s from './Button.module.css';
 const variantClass = { primary: s.primary, ghost: s.ghost }[variant];
-<button className={`${s.root} ${variantClass}`} {...rest} />
+<button className={`${s.root} ${variantClass}`} {...rest} />;
 ```
 
 For conditional classes prefer a tiny `cx(...parts)` helper that filters falsy
@@ -39,11 +40,15 @@ values over string templates with ternaries.
 
 ```tsx
 type ButtonProps = {
-  variant?: "primary" | "secondary" | "ghost";
-  size?: "sm" | "md";
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function Button({ variant = "primary", size = "md", ...rest }: ButtonProps) {
+export function Button({
+  variant = 'primary',
+  size = 'md',
+  ...rest
+}: ButtonProps) {
   return <button className={cx(s.root, s[variant], s[size])} {...rest} />;
 }
 ```
@@ -61,26 +66,49 @@ export function Button({ variant = "primary", size = "md", ...rest }: ButtonProp
     font-family: var(--vt-font-ui);
     font-weight: var(--vt-font-weight-semibold);
     letter-spacing: var(--vt-tracking-label);
-    transition: background var(--vt-duration-fast) var(--vt-ease-out),
-                border-color var(--vt-duration-fast) var(--vt-ease-out);
+    transition:
+      background var(--vt-duration-fast) var(--vt-ease-out),
+      border-color var(--vt-duration-fast) var(--vt-ease-out);
   }
-  .md { padding: var(--vt-space-2) var(--vt-space-4); font-size: var(--vt-font-size-sm); }
-  .sm { padding: var(--vt-space-1) var(--vt-space-3); font-size: var(--vt-font-size-xs); }
+  .md {
+    padding: var(--vt-space-2) var(--vt-space-4);
+    font-size: var(--vt-font-size-sm);
+  }
+  .sm {
+    padding: var(--vt-space-1) var(--vt-space-3);
+    font-size: var(--vt-font-size-xs);
+  }
 
-  .primary { background: var(--vt-color-accent); color: var(--vt-color-on-accent); }
-  .primary:hover { background: var(--vt-color-accent-strong); }
+  .primary {
+    background: var(--vt-color-accent);
+    color: var(--vt-color-on-accent);
+  }
+  .primary:hover {
+    background: var(--vt-color-accent-strong);
+  }
 
   .secondary {
     background: var(--vt-color-surface-raised);
     color: var(--vt-color-text-primary);
     border-color: var(--vt-color-border-subtle);
   }
-  .secondary:hover { border-color: var(--vt-color-border-strong); }
+  .secondary:hover {
+    border-color: var(--vt-color-border-strong);
+  }
 
-  .ghost { background: transparent; color: var(--vt-color-text-secondary); }
-  .ghost:hover { background: var(--vt-color-surface-raised); color: var(--vt-color-text-primary); }
+  .ghost {
+    background: transparent;
+    color: var(--vt-color-text-secondary);
+  }
+  .ghost:hover {
+    background: var(--vt-color-surface-raised);
+    color: var(--vt-color-text-primary);
+  }
 
-  .root:disabled { color: var(--vt-color-text-disabled); cursor: not-allowed; }
+  .root:disabled {
+    color: var(--vt-color-text-disabled);
+    cursor: not-allowed;
+  }
 }
 ```
 
@@ -106,7 +134,10 @@ The base surface for everything on the dashboard.
     justify-content: space-between;
     margin-bottom: var(--vt-space-3);
   }
-  .title { font-size: var(--vt-font-size-h2); letter-spacing: var(--vt-tracking-tight); }
+  .title {
+    font-size: var(--vt-font-size-h2);
+    letter-spacing: var(--vt-tracking-tight);
+  }
 }
 ```
 
@@ -121,14 +152,22 @@ The workhorse: a labeled number. Used in metrics panels, activity cards,
 weekly summaries. Always tabular mono.
 
 ```tsx
-type StatProps = { label: string; value: string; unit?: string; tone?: "default" | "accent" };
+type StatProps = {
+  label: string;
+  value: string;
+  unit?: string;
+  tone?: 'default' | 'accent';
+};
 ```
 
 ```css
 @import '@vecta/design-system/src/layers.css';
 
 @layer core {
-  .label { /* compose the global .eyebrow */ margin-bottom: var(--vt-space-1); }
+  .label {
+    /* compose the global .eyebrow */
+    margin-bottom: var(--vt-space-1);
+  }
   .value {
     font-family: var(--vt-font-mono);
     font-feature-settings: var(--vt-font-feature-tnum);
@@ -137,8 +176,14 @@ type StatProps = { label: string; value: string; unit?: string; tone?: "default"
     color: var(--vt-color-text-primary);
     line-height: var(--vt-line-height-tight);
   }
-  .unit { font-size: var(--vt-font-size-sm); color: var(--vt-color-text-muted); margin-left: var(--vt-space-1); }
-  .accent .value { color: var(--vt-color-accent); }   /* used for TRIMP */
+  .unit {
+    font-size: var(--vt-font-size-sm);
+    color: var(--vt-color-text-muted);
+    margin-left: var(--vt-space-1);
+  }
+  .accent .value {
+    color: var(--vt-color-accent);
+  } /* used for TRIMP */
 }
 ```
 
@@ -162,10 +207,22 @@ Status chips: provider (Strava/COROS), sport type, ACWR zone, sync state.
     font-weight: var(--vt-font-weight-medium);
     letter-spacing: var(--vt-tracking-label);
   }
-  .positive { background: color-mix(in srgb, var(--vt-color-positive) 16%, transparent); color: var(--vt-color-positive); }
-  .warning  { background: color-mix(in srgb, var(--vt-color-warning) 16%, transparent);  color: var(--vt-color-warning); }
-  .strava   { background: color-mix(in srgb, var(--vt-color-strava) 18%, transparent);   color: var(--vt-color-strava); }
-  .neutral  { background: var(--vt-color-surface-raised); color: var(--vt-color-text-secondary); }
+  .positive {
+    background: color-mix(in srgb, var(--vt-color-positive) 16%, transparent);
+    color: var(--vt-color-positive);
+  }
+  .warning {
+    background: color-mix(in srgb, var(--vt-color-warning) 16%, transparent);
+    color: var(--vt-color-warning);
+  }
+  .strava {
+    background: color-mix(in srgb, var(--vt-color-strava) 18%, transparent);
+    color: var(--vt-color-strava);
+  }
+  .neutral {
+    background: var(--vt-color-surface-raised);
+    color: var(--vt-color-text-secondary);
+  }
 }
 ```
 
@@ -187,9 +244,18 @@ Status chips: provider (Strava/COROS), sport type, ACWR zone, sync state.
     font-family: var(--vt-font-ui);
     font-size: var(--vt-font-size-body);
   }
-  .field::placeholder { color: var(--vt-color-text-faint); }
-  .field:focus { border-color: var(--vt-color-accent); outline: none; }
-  .label { /* global .eyebrow */ display: block; margin-bottom: var(--vt-space-2); }
+  .field::placeholder {
+    color: var(--vt-color-text-faint);
+  }
+  .field:focus {
+    border-color: var(--vt-color-accent);
+    outline: none;
+  }
+  .label {
+    /* global .eyebrow */
+    display: block;
+    margin-bottom: var(--vt-space-2);
+  }
 }
 ```
 
@@ -206,11 +272,26 @@ title, axes, and series colors come from tokens**, so they match the UI.
 @import '@vecta/design-system/src/layers.css';
 
 @layer core {
-  .root { /* compose Card */ }
-  .head { display: flex; justify-content: space-between; align-items: baseline; }
-  .title { /* global .eyebrow */ }
-  .legend { display: flex; gap: var(--vt-space-3); }
-  .dot { width: 8px; height: 8px; border-radius: var(--vt-radius-circle); }
+  .root {
+    /* compose Card */
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .title {
+    /* global .eyebrow */
+  }
+  .legend {
+    display: flex;
+    gap: var(--vt-space-3);
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--vt-radius-circle);
+  }
 }
 ```
 

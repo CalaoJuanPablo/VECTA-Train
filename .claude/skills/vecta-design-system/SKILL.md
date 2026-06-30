@@ -17,13 +17,13 @@ Everything is built on **CSS cascade layers + design tokens**. Components ship s
 @layer reset, tokens, theme, core, overrides;
 ```
 
-| Order | Layer | Purpose | Who writes here |
-|-------|-------|---------|-----------------|
-| 1 | `reset` | Normalize browser (box-sizing, color-scheme, font inheritance) | Foundation only |
-| 2 | `tokens` | Declare every design value as a CSS custom property on `html` (base → semantic → component) | Token files |
-| 3 | `theme` | Per-brand overrides of token values, scoped by `[data-theme="..."]` | Theme files |
-| 4 | `core` | Structural CSS of components — layout, spacing, states. **Consumes** tokens via `var()`. | Component modules |
-| 5 | `overrides` | Escape hatch for consuming apps to win over component CSS without `!important` | Consumer apps |
+| Order | Layer       | Purpose                                                                                     | Who writes here   |
+| ----- | ----------- | ------------------------------------------------------------------------------------------- | ----------------- |
+| 1     | `reset`     | Normalize browser (box-sizing, color-scheme, font inheritance)                              | Foundation only   |
+| 2     | `tokens`    | Declare every design value as a CSS custom property on `html` (base → semantic → component) | Token files       |
+| 3     | `theme`     | Per-brand overrides of token values, scoped by `[data-theme="..."]`                         | Theme files       |
+| 4     | `core`      | Structural CSS of components — layout, spacing, states. **Consumes** tokens via `var()`.    | Component modules |
+| 5     | `overrides` | Escape hatch for consuming apps to win over component CSS without `!important`              | Consumer apps     |
 
 Every CSS file wraps its rules in the appropriate `@layer { ... }` block.
 
@@ -66,8 +66,12 @@ Themes live in `@vecta/design-system/src/themes/`. A theme is a set of token re-
 Handled via `data-color-scheme` attribute and the native `color-scheme` property, set in `reset.css`:
 
 ```css
-[data-color-scheme='light'] { color-scheme: only light; }
-[data-color-scheme='dark']  { color-scheme: only dark; }
+[data-color-scheme='light'] {
+  color-scheme: only light;
+}
+[data-color-scheme='dark'] {
+  color-scheme: only dark;
+}
 ```
 
 Once `color-scheme` is set, every `light-dark()` call in the semantic layer resolves automatically. No `.dark { ... }` duplicate-selector sheet.
