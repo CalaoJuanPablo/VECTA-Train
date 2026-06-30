@@ -7,9 +7,12 @@
   ],
   "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "prettier": "3.6.2",
     "turbo": "2.9.18",
     "typescript": "6.0.3"
   },

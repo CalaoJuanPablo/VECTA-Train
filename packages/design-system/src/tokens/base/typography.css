@@ -1,10 +1,10 @@
-@import '../../layers.css';
+@import "../../layers.css";
 
 @layer tokens {
   html {
-    --vt-font-ui: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-    --vt-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
-    --vt-font-feature-tnum: 'tnum' 1;
+    --vt-font-ui: "Space Grotesk", system-ui, -apple-system, sans-serif;
+    --vt-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+    --vt-font-feature-tnum: "tnum" 1;
 
     --vt-font-size-display: 28px;
     --vt-font-size-h1: 22px;

@@ -1,4 +1,4 @@
-@import './layers.css';
+@import "./layers.css";
 
 @layer reset {
   *,
@@ -23,7 +23,12 @@
     line-height: var(--vt-line-height-normal);
   }
 
-  h1, h2, h3, h4, p, figure {
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure {
     margin: 0;
   }
 
@@ -38,11 +43,11 @@
   }
 
   /* Automatic light/dark detection via native color-scheme */
-  [data-color-scheme='light'] {
+  [data-color-scheme="light"] {
     color-scheme: only light;
   }
 
-  [data-color-scheme='dark'] {
+  [data-color-scheme="dark"] {
     color-scheme: only dark;
   }
 

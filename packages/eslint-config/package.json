@@ -7,6 +7,7 @@
   ],
   "dependencies": {
     "eslint-config-love": "154.0.0",
+    "eslint-config-prettier": "9.1.0",
     "typescript-eslint": "8.62.1"
   }
 }
