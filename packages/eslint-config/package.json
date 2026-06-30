@@ -1,0 +1,12 @@
+{
+  "name": "@vecta/eslint-config",
+  "version": "0.1.0",
+  "main": "./index.mjs",
+  "files": [
+    "index.mjs"
+  ],
+  "dependencies": {
+    "eslint-config-love": "154.0.0",
+    "typescript-eslint": "8.62.1"
+  }
+}

@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc --noEmit",
+    "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -25,6 +25,8 @@
     "@types/node": "26.0.1",
     "@types/react": "19.2.17",
     "@vitejs/plugin-react": "6.0.3",
+    "eslint": "10.6.0",
+    "@vecta/eslint-config": "workspace:*",
     "jsdom": "29.1.1",
     "typescript": "6.0.3",
     "vitest": "4.1.9"
