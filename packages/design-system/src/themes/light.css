@@ -1,7 +1,7 @@
-@import '../layers.css';
+@import "../layers.css";
 
 @layer theme {
-  [data-theme='light'] {
+  [data-theme="light"] {
     --vt-color-surface-app: #fafaf8;
     --vt-color-surface: #ffffff;
     --vt-color-surface-raised: #fafaf8;
