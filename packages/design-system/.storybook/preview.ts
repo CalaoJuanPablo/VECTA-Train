@@ -8,7 +8,7 @@ import '../src/themes.css'
 
 const preview: Preview = {
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
     controls: {
       matchers: {
         color: /(background|color)$/i,
