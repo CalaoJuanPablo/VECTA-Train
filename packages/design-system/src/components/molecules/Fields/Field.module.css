@@ -1,0 +1,96 @@
+@import '../../../layers.css';
+
+@layer core {
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vt-space-2);
+  }
+
+  .label {
+    font-size: var(--vt-font-size-sm);
+    font-weight: var(--vt-font-weight-medium);
+    color: var(--vt-color-text-secondary);
+    letter-spacing: var(--vt-tracking-label);
+  }
+
+  /* Visual-only required marker — kept out of the label text so the input's
+     accessible name stays clean. Requiredness is conveyed via aria-required. */
+  .labelRequired::after {
+    content: ' *';
+    color: var(--vt-color-text-danger);
+  }
+
+  .control {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--vt-space-3) var(--vt-space-4);
+    font-family: var(--vt-font-ui);
+    font-size: var(--vt-font-size-body);
+    color: var(--vt-color-text-primary);
+    background-color: var(--vt-color-surface);
+    border: 1px solid var(--vt-color-border-strong);
+    border-radius: var(--vt-radius-md);
+    outline: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+
+  .input::placeholder {
+    color: var(--vt-color-text-faint);
+  }
+
+  .input:hover:not(:disabled) {
+    border-color: var(--vt-color-text-faint);
+  }
+
+  .input:focus-visible {
+    border-color: var(--vt-color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--vt-color-accent) 28%, transparent);
+  }
+
+  .input:disabled {
+    color: var(--vt-color-text-disabled);
+    background-color: var(--vt-color-surface-sunken);
+    cursor: not-allowed;
+  }
+
+  /* Leave room for a trailing adornment (e.g. password show/hide). */
+  .control:has(.adornment) .input {
+    padding-right: var(--vt-space-10);
+  }
+
+  .inputInvalid,
+  .inputInvalid:hover:not(:disabled) {
+    border-color: var(--vt-color-danger);
+  }
+
+  .inputInvalid:focus-visible {
+    border-color: var(--vt-color-danger);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--vt-color-danger) 28%, transparent);
+  }
+
+  .adornment {
+    position: absolute;
+    right: var(--vt-space-2);
+    display: flex;
+    align-items: center;
+  }
+
+  .description {
+    margin: 0;
+    font-size: var(--vt-font-size-xs);
+    color: var(--vt-color-text-muted);
+  }
+
+  .error {
+    margin: 0;
+    font-size: var(--vt-font-size-xs);
+    color: var(--vt-color-text-danger);
+  }
+}

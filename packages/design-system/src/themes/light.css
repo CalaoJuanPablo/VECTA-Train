@@ -1,0 +1,23 @@
+@import "../layers.css";
+
+@layer theme {
+  [data-theme="light"] {
+    --vt-color-surface-app: #fafaf8;
+    --vt-color-surface: #ffffff;
+    --vt-color-surface-raised: #fafaf8;
+    --vt-color-surface-sunken: #eeece3;
+
+    --vt-color-border-subtle: #e8e6de;
+    --vt-color-border-strong: #ddd9cc;
+    --vt-color-border-dashed: #ddd9cc;
+
+    --vt-color-text-primary: #1a1a17;
+    --vt-color-text-secondary: rgba(40, 40, 36, 0.7);
+    --vt-color-text-muted: rgba(40, 40, 36, 0.55);
+    --vt-color-text-faint: rgba(40, 40, 36, 0.45);
+    --vt-color-text-disabled: rgba(40, 40, 36, 0.3);
+
+    --vt-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --vt-shadow-md: 0 8px 30px rgba(0, 0, 0, 0.1);
+  }
+}

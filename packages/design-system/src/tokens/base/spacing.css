@@ -1,0 +1,15 @@
+@import "../../layers.css";
+
+@layer tokens {
+  html {
+    --vt-space-1: 4px;
+    --vt-space-2: 8px;
+    --vt-space-3: 12px;
+    --vt-space-4: 16px;
+    --vt-space-5: 20px;
+    --vt-space-6: 24px;
+    --vt-space-8: 32px;
+    --vt-space-10: 40px;
+    --vt-space-12: 48px;
+  }
+}

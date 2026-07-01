@@ -1,0 +1,7 @@
+/* =========================================================================
+   VECTA Train — Cascade Layers Contract
+   Single source of truth for cascade order. Re-import in every CSS file
+   so layer order is established regardless of import order.
+   ========================================================================= */
+
+@layer reset, tokens, theme, core, overrides;

@@ -1,0 +1,50 @@
+@import "../../layers.css";
+
+@layer tokens {
+  html {
+    /* ---- Brand / accent (theme-independent) --------------------------- */
+    --vt-color-accent: #00e5a0;
+    --vt-color-accent-strong: #00b37e;
+    --vt-color-accent-deep: #00875f;
+    --vt-color-on-accent: #062018;
+
+    /* ---- Data-viz categorical (theme-independent) --------------------- */
+    --vt-color-viz-hr: #5bc8ff;
+    --vt-color-viz-effort: #ff6b4a;
+    --vt-color-viz-alt: #b794f4;
+    --vt-color-viz-accent: var(--vt-color-accent);
+
+    /* ---- Status ------------------------------------------------------- */
+    --vt-color-positive: var(--vt-color-accent);
+    --vt-color-warning: #ff6b4a;
+    --vt-color-info: #5bc8ff;
+    --vt-color-danger: #ff5a4a;
+    --vt-color-text-danger: var(--vt-color-danger);
+
+    /* ---- Provider brand ---------------------------------------------- */
+    --vt-color-strava: #fc5200;
+    --vt-color-coros: #f2f1ec;
+
+    /* ---- Surfaces (dark = default) ----------------------------------- */
+    --vt-color-surface-app: #131311;
+    --vt-color-surface: #1c1c18;
+    --vt-color-surface-raised: #22221c;
+    --vt-color-surface-sunken: #181813;
+
+    /* ---- Borders ------------------------------------------------------ */
+    --vt-color-border-subtle: #2a2a25;
+    --vt-color-border-strong: #3a3a30;
+    --vt-color-border-dashed: #3a3a30;
+
+    /* ---- Text --------------------------------------------------------- */
+    --vt-color-text-primary: #f2f1ec;
+    --vt-color-text-secondary: #a8a69d;
+    --vt-color-text-muted: #8b897e;
+    --vt-color-text-faint: #6f6d64;
+    --vt-color-text-disabled: #4a4942;
+
+    /* ---- Shadows ------------------------------------------------------ */
+    --vt-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.18);
+    --vt-shadow-md: 0 8px 30px rgba(0, 0, 0, 0.18);
+  }
+}

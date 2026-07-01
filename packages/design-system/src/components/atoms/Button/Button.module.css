@@ -1,0 +1,52 @@
+@import '../../../layers.css';
+
+@layer core {
+  .button {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--vt-space-2);
+    padding: var(--vt-space-3) var(--vt-space-5);
+    font-family: var(--vt-font-ui);
+    font-size: var(--vt-font-size-body);
+    font-weight: var(--vt-font-weight-semibold);
+    border-radius: var(--vt-radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 120ms ease, border-color 120ms ease, opacity 120ms ease;
+  }
+
+  .button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--vt-color-accent) 32%, transparent);
+  }
+
+  .button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .fullWidth {
+    width: 100%;
+  }
+
+  .primary {
+    background-color: var(--vt-color-accent);
+    color: var(--vt-color-on-accent);
+  }
+
+  .primary:hover:not(:disabled) {
+    background-color: var(--vt-color-accent-strong);
+  }
+
+  .secondary {
+    background-color: var(--vt-color-surface);
+    color: var(--vt-color-text-primary);
+    border-color: var(--vt-color-border-strong);
+  }
+
+  .secondary:hover:not(:disabled) {
+    border-color: var(--vt-color-text-faint);
+  }
+}

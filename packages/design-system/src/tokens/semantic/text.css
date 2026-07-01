@@ -1,0 +1,12 @@
+@import "../../layers.css";
+
+@layer tokens {
+  html {
+    /* Text — flip between themes */
+    --vt-color-text-primary: light-dark(#1a1a17, #f2f1ec);
+    --vt-color-text-secondary: light-dark(rgba(40, 40, 36, 0.7), #a8a69d);
+    --vt-color-text-muted: light-dark(rgba(40, 40, 36, 0.55), #8b897e);
+    --vt-color-text-faint: light-dark(rgba(40, 40, 36, 0.45), #6f6d64);
+    --vt-color-text-disabled: light-dark(rgba(40, 40, 36, 0.3), #4a4942);
+  }
+}

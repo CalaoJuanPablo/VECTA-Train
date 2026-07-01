@@ -1,0 +1,13 @@
+@import "../../layers.css";
+
+@layer tokens {
+  html {
+    --vt-radius-xs: 4px;
+    --vt-radius-sm: 6px;
+    --vt-radius-md: 8px;
+    --vt-radius-lg: 10px;
+    --vt-radius-xl: 12px;
+    --vt-radius-pill: 999px;
+    --vt-radius-circle: 50%;
+  }
+}

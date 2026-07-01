@@ -1,0 +1,8 @@
+@import "./layers.css";
+
+@value breakpoint-xs: (0 <= width);
+@value breakpoint-sm: (576px <= width);
+@value breakpoint-md: (768px <= width);
+@value breakpoint-lg: (992px <= width);
+@value breakpoint-xl: (1200px <= width);
+@value breakpoint-xxl: (1400px <= width);

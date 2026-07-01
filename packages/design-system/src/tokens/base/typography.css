@@ -1,0 +1,29 @@
+@import "../../layers.css";
+
+@layer tokens {
+  html {
+    --vt-font-ui: "Space Grotesk", system-ui, -apple-system, sans-serif;
+    --vt-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+    --vt-font-feature-tnum: "tnum" 1;
+
+    --vt-font-size-display: 28px;
+    --vt-font-size-h1: 22px;
+    --vt-font-size-h2: 18px;
+    --vt-font-size-body: 14px;
+    --vt-font-size-sm: 13px;
+    --vt-font-size-xs: 12px;
+    --vt-font-size-eyebrow: 11px;
+
+    --vt-font-weight-regular: 400;
+    --vt-font-weight-medium: 500;
+    --vt-font-weight-semibold: 600;
+    --vt-font-weight-bold: 700;
+
+    --vt-line-height-tight: 1.1;
+    --vt-line-height-normal: 1.4;
+
+    --vt-tracking-tight: -0.3px;
+    --vt-tracking-label: 0.6px;
+    --vt-tracking-eyebrow: 2.5px;
+  }
+}
