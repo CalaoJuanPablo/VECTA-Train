@@ -1,0 +1,14 @@
+name: Default to draft
+on:
+  pull_request:
+    types: [opened]
+permissions:
+  pull-requests: write
+jobs:
+  to-draft:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr ready "${{ github.event.pull_request.number }}" --undo -R "${{ github.repository }}"
