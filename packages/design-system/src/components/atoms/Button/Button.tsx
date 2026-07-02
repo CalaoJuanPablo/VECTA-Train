@@ -1,4 +1,5 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
+import cx from 'classnames';
 import styles from './Button.module.css';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -7,12 +8,18 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 /** Pure-visual button. Carries no form logic; pass native `type`/`onClick`/`disabled`. */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant = 'primary', fullWidth, className, type = 'button', ...rest },
-  ref,
-) {
-  const cls = [styles.button, styles[variant], fullWidth ? styles.fullWidth : null, className]
-    .filter(Boolean)
-    .join(' ');
-  return <button ref={ref} type={type} className={cls} {...rest} />;
-});
+export function Button({
+  variant = 'primary',
+  fullWidth,
+  className,
+  type = 'button',
+  ...rest
+}: ButtonProps) {
+  return (
+    <button
+      type={type}
+      className={cx(styles.button, styles[variant], { [styles.fullWidth]: fullWidth }, className)}
+      {...rest}
+    />
+  );
+}

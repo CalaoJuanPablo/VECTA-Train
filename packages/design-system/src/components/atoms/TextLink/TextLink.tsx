@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import styles from './TextLink.module.css';
 
@@ -12,14 +13,8 @@ export type TextLinkProps =
 export function TextLink(props: TextLinkProps) {
   if (props.as === 'button') {
     const { as: _as, className, type, ...rest } = props;
-    return (
-      <button
-        type={type ?? 'button'}
-        className={[styles.link, className].filter(Boolean).join(' ')}
-        {...rest}
-      />
-    );
+    return <button type={type ?? 'button'} className={cx(styles.link, className)} {...rest} />;
   }
   const { as: _as, className, ...rest } = props;
-  return <a className={[styles.link, className].filter(Boolean).join(' ')} {...rest} />;
+  return <a className={cx(styles.link, className)} {...rest} />;
 }

@@ -1,4 +1,5 @@
-import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react';
+import { useId, type InputHTMLAttributes, type ReactNode } from 'react';
+import cx from 'classnames';
 import styles from './Field.module.css';
 
 export interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -19,39 +20,34 @@ export interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
  * and all ARIA wiring (id association, aria-invalid, aria-describedby, error alert).
  * Holds no form logic — values, errors and validation are supplied by the consumer.
  */
-export const Field = forwardRef<HTMLInputElement, FieldProps>(function Field(
-  { label, error, description, required, endAdornment, id, className, ...rest },
-  ref,
-) {
+export function Field({
+  label,
+  error,
+  description,
+  required,
+  endAdornment,
+  id,
+  className,
+  ...rest
+}: FieldProps) {
   const reactId = useId();
   const inputId = id ?? reactId;
   const errorId = `${inputId}-error`;
   const descriptionId = `${inputId}-description`;
 
   const showDescription = Boolean(description) && !error;
-  const describedBy =
-    [showDescription ? descriptionId : null, error ? errorId : null]
-      .filter(Boolean)
-      .join(' ') || undefined;
-
-  const inputClassName = [styles.input, error ? styles.inputInvalid : null, className]
-    .filter(Boolean)
-    .join(' ');
+  const describedBy = cx(showDescription && descriptionId, error && errorId) || undefined;
 
   return (
     <div className={styles.field}>
-      <label
-        className={[styles.label, required ? styles.labelRequired : null].filter(Boolean).join(' ')}
-        htmlFor={inputId}
-      >
+      <label className={cx(styles.label, { [styles.labelRequired]: required })} htmlFor={inputId}>
         {label}
       </label>
 
       <div className={styles.control}>
         <input
-          ref={ref}
           id={inputId}
-          className={inputClassName}
+          className={cx(styles.input, { [styles.inputInvalid]: error }, className)}
           required={required}
           aria-required={required || undefined}
           aria-invalid={error ? true : undefined}
@@ -74,4 +70,4 @@ export const Field = forwardRef<HTMLInputElement, FieldProps>(function Field(
       ) : null}
     </div>
   );
-});
+}

@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { useState } from 'react';
 import { Field, type FieldProps } from './Field';
 import styles from './PasswordField.module.css';
 
@@ -15,42 +15,36 @@ export interface PasswordFieldProps extends Omit<FieldProps, 'type' | 'endAdornm
  * Pure-visual password field. Includes a show/hide toggle whose only state is local
  * UI visibility — it carries no form logic or value handling.
  */
-export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
-  function PasswordField(
-    {
-      newPassword,
-      showPasswordLabel = 'Show password',
-      hidePasswordLabel = 'Hide password',
-      autoComplete,
-      disabled,
-      ...props
-    },
-    ref,
-  ) {
-    const [visible, setVisible] = useState(false);
+export function PasswordField({
+  newPassword,
+  showPasswordLabel = 'Show password',
+  hidePasswordLabel = 'Hide password',
+  autoComplete,
+  disabled,
+  ...props
+}: PasswordFieldProps) {
+  const [visible, setVisible] = useState(false);
 
-    const toggle = (
-      <button
-        type="button"
-        className={styles.toggle}
-        onClick={() => setVisible((v) => !v)}
-        aria-pressed={visible}
-        aria-label={visible ? hidePasswordLabel : showPasswordLabel}
-        disabled={disabled}
-      >
-        {visible ? 'Hide' : 'Show'}
-      </button>
-    );
+  const toggle = (
+    <button
+      type="button"
+      className={styles.toggle}
+      onClick={() => setVisible((v) => !v)}
+      aria-pressed={visible}
+      aria-label={visible ? hidePasswordLabel : showPasswordLabel}
+      disabled={disabled}
+    >
+      {visible ? 'Hide' : 'Show'}
+    </button>
+  );
 
-    return (
-      <Field
-        ref={ref}
-        type={visible ? 'text' : 'password'}
-        autoComplete={autoComplete ?? (newPassword ? 'new-password' : 'current-password')}
-        endAdornment={toggle}
-        disabled={disabled}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <Field
+      type={visible ? 'text' : 'password'}
+      autoComplete={autoComplete ?? (newPassword ? 'new-password' : 'current-password')}
+      endAdornment={toggle}
+      disabled={disabled}
+      {...props}
+    />
+  );
+}
