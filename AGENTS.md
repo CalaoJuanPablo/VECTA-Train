@@ -109,6 +109,7 @@ pnpm --filter @vecta/design-system storybook # DS docs on :6006
 - **Shared request/response shapes** go in `packages/shared-types`. Import from there in both apps — don't redefine the same interface in `apps/web` and `apps/api`.
 - **Secrets**: OAuth provider tokens must be encrypted at rest. Never log raw tokens or payloads that contain them.
 - **Tests**: Vitest + RTL, run under jsdom. Behavior tests, not implementation tests. Co-locate `*.test.ts(x)` next to the file under test.
+- **Code**: Don't code anything outside the prompt instructions, or do things by intuition. Just do what it's asked you to do, nothing more. Ask any questions yo need to be clear before writing the first line of code.
 
 ## Things to know before building the next layer
 
