@@ -2,8 +2,8 @@
 
 @layer tokens {
   html {
-    --vt-font-ui: "Space Grotesk", system-ui, -apple-system, sans-serif;
-    --vt-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+    --vt-font-ui: var(--font-space-grotesk), system-ui, -apple-system, sans-serif;
+    --vt-font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", monospace;
     --vt-font-feature-tnum: "tnum" 1;
 
     --vt-font-size-display: 28px;

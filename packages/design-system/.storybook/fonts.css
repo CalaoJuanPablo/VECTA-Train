@@ -1,0 +1,15 @@
+/* =========================================================================
+   VECTA Train — Storybook fonts
+   Self-hosts the same variable fonts Next.js loads in apps/web, exposes
+   them via the --font-space-grotesk / --font-jetbrains-mono CSS variables
+   the design-system tokens expect. Loaded only in the Storybook docs build
+   (devDependency); not part of the published design-system package.
+   ========================================================================= */
+
+@import '@fontsource-variable/space-grotesk/wght.css';
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+
+:root {
+  --font-space-grotesk: 'Space Grotesk Variable', 'Space Grotesk Fallback';
+  --font-jetbrains-mono: 'JetBrains Mono Variable', 'JetBrains Mono Fallback';
+}
