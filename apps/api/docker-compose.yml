@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vecta-postgres
+    environment:
+      POSTGRES_USER: vecta
+      POSTGRES_PASSWORD: vecta
+      POSTGRES_DB: vecta
+    ports:
+      - '5433:5432'
+    volumes:
+      - vecta-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U vecta -d vecta']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  vecta-postgres-data:

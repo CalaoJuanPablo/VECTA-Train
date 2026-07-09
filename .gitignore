@@ -7,3 +7,7 @@ dist
 .turbo
 .DS_Store
 storybook-static
+next-env.d.ts
+
+# Local AI tooling cache (skill registry, fingerprints, etc.) — not for VCS
+.atl/
