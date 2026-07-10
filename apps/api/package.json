@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "11.0.23",
+    "@types/cookie-parser": "1.4.8",
     "@types/express": "5.0.0",
     "@types/node": "26.0.0",
     "@vecta/eslint-config": "workspace:*",
