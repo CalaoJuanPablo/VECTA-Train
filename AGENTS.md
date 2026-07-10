@@ -4,7 +4,15 @@ Guidance for AI coding agents working in this repo. Read this before making chan
 
 ## Project
 
-VECTA Train ingests wearable running data (Strava/COROS), computes Banister TRIMP per activity, aggregates weekly load, and shows it on a dashboard.
+VECTA Train ingests wearable running data (Strava/COROS), computes Banister TRIMP per activity, aggregates weekly load, and shows it on a dashboard. Phase 1 is deterministic analytics only.
+
+**Out of scope for Phase 1 — do not implement, even if asked in a vague ticket:**
+
+- AI coaching / "Coach Brain" logic (module exists as an inert stub only)
+- Automated training plan generation
+- Injury prediction, nutrition/recovery modeling, multi-sport optimization
+
+If a task description implies any of the above, flag it instead of building it.
 
 The intended target stack and modules are described in **"Phase 1 scope"** below. **None of those modules exist yet** — the repo is a monorepo scaffold plus a first frontend feature (the login page). Treat Phase 1 as the destination, not the current state: do not implement Phase 1 modules without an explicit ticket, but write new code in a way that won't paint us into a corner when they land.
 
