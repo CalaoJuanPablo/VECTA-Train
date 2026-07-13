@@ -1,13 +1,8 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import type { Request } from 'express';
 import type { Athlete } from '@vecta/shared-types';
 import { SESSION_COOKIE_NAME } from '../cookie.util';
-import type { SessionService } from '../session.service';
+import { SessionService } from '../session.service';
 
 declare module 'express' {
   interface Request {
