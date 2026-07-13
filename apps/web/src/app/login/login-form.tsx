@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import {
   Button,
   DateField,
@@ -8,14 +10,18 @@ import {
   TextField,
   TextLink,
 } from '@vecta/design-system';
+import { ApiError, apiClient } from '@/lib/api-client';
 import { useForm } from '@/forms/use-form';
 import { useAuthUIStore } from './auth-ui-store';
 import { signInSchema, signUpSchema, type SignInValues, type SignUpValues } from './schemas';
 import s from './login.module.css';
 
 export function LoginForm() {
+  const router = useRouter();
   const mode = useAuthUIStore((state) => state.mode);
   const toggleMode = useAuthUIStore((state) => state.toggleMode);
+
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Two named forms hosted by the same FormsProvider.
   const signIn = useForm({
@@ -30,14 +36,24 @@ export function LoginForm() {
     initialValues: { firstName: '', lastName: '', email: '', password: '', birthDate: '' },
   });
 
-  const onSignIn = (values: SignInValues) => {
-    // TODO: wire auth API once the backend sign-in endpoint exists (Phase 1 has none).
-    console.info('sign in', values);
+  const onSignIn = async (values: SignInValues) => {
+    setSubmitError(null);
+    try {
+      await apiClient.auth.signIn(values);
+      router.replace('/dashboard');
+    } catch (error) {
+      setSubmitError(messageFor(error));
+    }
   };
 
-  const onSignUp = (values: SignUpValues) => {
-    // TODO: wire auth API once the backend sign-up endpoint exists (Phase 1 has none).
-    console.info('sign up', values);
+  const onSignUp = async (values: SignUpValues) => {
+    setSubmitError(null);
+    try {
+      await apiClient.auth.signUp(values);
+      router.replace('/dashboard');
+    } catch (error) {
+      setSubmitError(messageFor(error));
+    }
   };
 
   return (
@@ -68,6 +84,11 @@ export function LoginForm() {
           <div className={s.forgot}>
             <TextLink href="/forgot-password">Forgot password?</TextLink>
           </div>
+          {submitError && (
+            <p className={s.error} role="alert">
+              {submitError}
+            </p>
+          )}
           <Button type="submit" fullWidth disabled={signIn.isSubmitting}>
             Sign in
           </Button>
@@ -103,6 +124,11 @@ export function LoginForm() {
             {...signUp.fieldProps('password')}
           />
           <DateField label="Birth date" required {...signUp.fieldProps('birthDate')} />
+          {submitError && (
+            <p className={s.error} role="alert">
+              {submitError}
+            </p>
+          )}
           <Button type="submit" fullWidth disabled={signUp.isSubmitting}>
             Create account
           </Button>
@@ -117,4 +143,13 @@ export function LoginForm() {
       </p>
     </div>
   );
+}
+
+function messageFor(error: unknown): string {
+  if (error instanceof ApiError) {
+    if (error.status === 409) return 'An account with that email already exists.';
+    if (error.status === 401) return 'Invalid email or password.';
+    return error.message;
+  }
+  return 'Something went wrong. Please try again.';
 }
