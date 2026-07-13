@@ -33,7 +33,7 @@ pnpm install
 cp apps/api/.env.example apps/api/.env       # gitignored, never committed
 pnpm --filter @vecta/api db:up               # Postgres on :5433
 pnpm --filter @vecta/api prisma:migrate      # apply migrations
-pnpm --filter @vecta/api start:dev           # api on :3001
+pnpm --filter @vecta/api dev                 # api on :3001
 ```
 
 Wait for `Nest application successfully started` in the api log.
@@ -122,7 +122,7 @@ Confirm the boot-time fail-fast works:
 ```bash
 NODE_ENV=production \
 DATABASE_URL= WEB_ORIGIN= COOKIE_SECURE= \
-pnpm --filter @vecta/api start:dev
+pnpm --filter @vecta/api dev
 ```
 
 The api refuses to start and logs:
