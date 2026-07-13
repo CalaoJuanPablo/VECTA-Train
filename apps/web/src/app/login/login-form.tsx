@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   DateField,
@@ -35,6 +35,19 @@ export function LoginForm() {
     schema: signUpSchema,
     initialValues: { firstName: '', lastName: '', email: '', password: '', birthDate: '' },
   });
+
+  // Clear all error state when the user toggles between sign-in and sign-up.
+  // Values are preserved so a half-typed entry on one mode stays usable
+  // if the user toggles back; only the 4xx submit error and per-field zod
+  // errors get wiped. signIn / signUp are deliberately omitted from deps
+  // — useForm() returns a new object on every render, so depending on
+  // them would trigger this effect on each render (infinite loop).
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setSubmitError(null);
+    signIn.clearErrors();
+    signUp.clearErrors();
+  }, [mode]);
 
   const onSignIn = async (values: SignInValues) => {
     setSubmitError(null);
