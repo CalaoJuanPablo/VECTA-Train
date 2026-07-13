@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { randomBytes } from 'node:crypto';
-import type { Session, User } from '@prisma/client';
+import type { Athlete, Session } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
 const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 30; // 30 days
@@ -14,18 +14,18 @@ function generateSessionId(): string {
 export class SessionService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: string): Promise<Session> {
+  async create(athleteId: string): Promise<Session> {
     const id = generateSessionId();
     const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
-    return this.prisma.session.create({ data: { id, userId, expiresAt } });
+    return this.prisma.session.create({ data: { id, athleteId, expiresAt } });
   }
 
-  /** Returns the active session and its user, or null if missing/expired. */
-  async findById(sessionId: string): Promise<{ session: Session; user: User } | null> {
+  /** Returns the active session and its athlete, or null if missing/expired. */
+  async findById(sessionId: string): Promise<{ session: Session; athlete: Athlete } | null> {
     if (!sessionId) return null;
     const session = await this.prisma.session.findUnique({
       where: { id: sessionId },
-      include: { user: true },
+      include: { athlete: true },
     });
     if (!session) return null;
     if (session.expiresAt.getTime() <= Date.now()) {
@@ -33,7 +33,7 @@ export class SessionService {
       await this.prisma.session.delete({ where: { id: sessionId } }).catch(() => undefined);
       return null;
     }
-    return { session, user: session.user };
+    return { session, athlete: session.athlete };
   }
 
   async revoke(sessionId: string): Promise<void> {

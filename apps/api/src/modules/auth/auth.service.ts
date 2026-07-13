@@ -1,8 +1,8 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import type { AuthUser, SignInInput, SignUpInput } from '@vecta/shared-types';
+import type { Athlete, SignInInput, SignUpInput } from '@vecta/shared-types';
 import { PrismaService } from '../../prisma/prisma.service';
-import { toAuthUser } from './dto/auth-user.mapper';
+import { toAthlete } from './dto/athlete.mapper';
 import { PasswordService } from './password.service';
 import { SessionService } from './session.service';
 
@@ -14,12 +14,12 @@ export class AuthService {
     private readonly sessions: SessionService,
   ) {}
 
-  async signUp(input: SignUpInput): Promise<{ user: AuthUser; sessionId: string }> {
+  async signUp(input: SignUpInput): Promise<{ athlete: Athlete; sessionId: string }> {
     const passwordHash = await this.password.hash(input.password);
 
-    let user;
+    let athlete;
     try {
-      user = await this.prisma.user.create({
+      athlete = await this.prisma.athlete.create({
         data: {
           email: input.email,
           firstName: input.firstName,
@@ -35,21 +35,21 @@ export class AuthService {
       throw error;
     }
 
-    const session = await this.sessions.create(user.id);
-    return { user: toAuthUser(user), sessionId: session.id };
+    const session = await this.sessions.create(athlete.id);
+    return { athlete: toAthlete(athlete), sessionId: session.id };
   }
 
-  async signIn(input: SignInInput): Promise<{ user: AuthUser; sessionId: string }> {
-    const user = await this.prisma.user.findUnique({ where: { email: input.email } });
-    // Always run argon2.verify (with a dummy hash when the user is unknown) so
+  async signIn(input: SignInInput): Promise<{ athlete: Athlete; sessionId: string }> {
+    const athlete = await this.prisma.athlete.findUnique({ where: { email: input.email } });
+    // Always run argon2.verify (with a dummy hash when the athlete is unknown) so
     // signIn latency is independent of email existence — prevents user enumeration
     // via timing oracle. The response message stays generic on top of that.
-    const hashToCheck = user?.passwordHash ?? (await this.password.getDummyHash());
+    const hashToCheck = athlete?.passwordHash ?? (await this.password.getDummyHash());
     const passwordValid = await this.password.verify(hashToCheck, input.password);
-    if (!user || !passwordValid) {
+    if (!athlete || !passwordValid) {
       throw new UnauthorizedException('Invalid email or password');
     }
-    const session = await this.sessions.create(user.id);
-    return { user: toAuthUser(user), sessionId: session.id };
+    const session = await this.sessions.create(athlete.id);
+    return { athlete: toAthlete(athlete), sessionId: session.id };
   }
 }

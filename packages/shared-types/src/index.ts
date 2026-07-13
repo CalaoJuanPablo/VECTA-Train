@@ -4,7 +4,7 @@ export interface Item {
 }
 
 export type {
-  AuthUser,
+  Athlete,
   SignInInput,
   SignUpInput,
   AuthResponse,

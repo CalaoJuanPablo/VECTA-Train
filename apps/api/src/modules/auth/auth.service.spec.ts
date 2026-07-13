@@ -16,9 +16,9 @@ function buildPasswordService() {
 
 function buildSessionService() {
   return {
-    create: vi.fn(async (userId: string) => ({
-      id: `sid-${userId}`,
-      userId,
+    create: vi.fn(async (athleteId: string) => ({
+      id: `sid-${athleteId}`,
+      athleteId,
       expiresAt: new Date(Date.now() + 1000 * 60 * 60),
       createdAt: new Date(),
       lastUsedAt: new Date(),
@@ -30,7 +30,7 @@ function buildSessionService() {
 }
 
 interface PrismaStub {
-  user: {
+  athlete: {
     create: ReturnType<typeof vi.fn>;
     findUnique: ReturnType<typeof vi.fn>;
   };
@@ -44,7 +44,7 @@ interface PrismaStub {
 
 function buildPrismaStub(): PrismaStub {
   return {
-    user: {
+    athlete: {
       create: vi.fn(),
       findUnique: vi.fn(),
     },
@@ -79,9 +79,9 @@ describe('AuthService', () => {
   };
 
   describe('signUp', () => {
-    it('hashes the password, creates a user, and opens a session', async () => {
-      prisma.user.create.mockResolvedValueOnce({
-        id: 'user-1',
+    it('hashes the password, creates an athlete, and opens a session', async () => {
+      prisma.athlete.create.mockResolvedValueOnce({
+        id: 'athlete-1',
         email: validSignUp.email,
         firstName: validSignUp.firstName,
         lastName: validSignUp.lastName,
@@ -94,7 +94,7 @@ describe('AuthService', () => {
       const result = await service.signUp(validSignUp);
 
       expect(password.hash).toHaveBeenCalledWith('password1');
-      expect(prisma.user.create).toHaveBeenCalledWith({
+      expect(prisma.athlete.create).toHaveBeenCalledWith({
         data: {
           email: 'jane@example.com',
           firstName: 'Jane',
@@ -103,15 +103,15 @@ describe('AuthService', () => {
           passwordHash: 'hashed:password1',
         },
       });
-      expect(sessions.create).toHaveBeenCalledWith('user-1');
-      expect(result.user).toEqual({
-        id: 'user-1',
+      expect(sessions.create).toHaveBeenCalledWith('athlete-1');
+      expect(result.athlete).toEqual({
+        id: 'athlete-1',
         email: 'jane@example.com',
         firstName: 'Jane',
         lastName: 'Doe',
         birthDate: '1990-05-01',
       });
-      expect(result.sessionId).toBe('sid-user-1');
+      expect(result.sessionId).toBe('sid-athlete-1');
     });
 
     it('translates Prisma P2002 (unique email) into ConflictException', async () => {
@@ -119,7 +119,7 @@ describe('AuthService', () => {
         'Unique constraint failed',
         { code: 'P2002', clientVersion: 'test' },
       );
-      prisma.user.create.mockRejectedValueOnce(prismaError);
+      prisma.athlete.create.mockRejectedValueOnce(prismaError);
 
       await expect(service.signUp(validSignUp)).rejects.toBeInstanceOf(ConflictException);
       expect(sessions.create).not.toHaveBeenCalled();
@@ -127,7 +127,7 @@ describe('AuthService', () => {
 
     it('rethrows non-unique-constraint Prisma errors', async () => {
       const otherError = new Error('connection refused');
-      prisma.user.create.mockRejectedValueOnce(otherError);
+      prisma.athlete.create.mockRejectedValueOnce(otherError);
 
       await expect(service.signUp(validSignUp)).rejects.toBe(otherError);
     });
@@ -136,9 +136,9 @@ describe('AuthService', () => {
   describe('signIn', () => {
     const signIn: SignInInput = { email: 'jane@example.com', password: 'password1' };
 
-    it('returns the user and a new session id on valid credentials', async () => {
-      prisma.user.findUnique.mockResolvedValueOnce({
-        id: 'user-1',
+    it('returns the athlete and a new session id on valid credentials', async () => {
+      prisma.athlete.findUnique.mockResolvedValueOnce({
+        id: 'athlete-1',
         email: signIn.email,
         firstName: 'Jane',
         lastName: 'Doe',
@@ -151,12 +151,12 @@ describe('AuthService', () => {
       const result = await service.signIn(signIn);
 
       expect(password.verify).toHaveBeenCalledWith('hashed:password1', 'password1');
-      expect(result.user.id).toBe('user-1');
-      expect(result.sessionId).toBe('sid-user-1');
+      expect(result.athlete.id).toBe('athlete-1');
+      expect(result.sessionId).toBe('sid-athlete-1');
     });
 
     it('throws UnauthorizedException with a generic message when the email is unknown', async () => {
-      prisma.user.findUnique.mockResolvedValueOnce(null);
+      prisma.athlete.findUnique.mockResolvedValueOnce(null);
 
       await expect(service.signIn(signIn)).rejects.toBeInstanceOf(UnauthorizedException);
       await expect(service.signIn(signIn)).rejects.toMatchObject({
@@ -170,8 +170,8 @@ describe('AuthService', () => {
     });
 
     it('throws UnauthorizedException with the same generic message on wrong password', async () => {
-      prisma.user.findUnique.mockResolvedValueOnce({
-        id: 'user-1',
+      prisma.athlete.findUnique.mockResolvedValueOnce({
+        id: 'athlete-1',
         email: signIn.email,
         firstName: 'Jane',
         lastName: 'Doe',

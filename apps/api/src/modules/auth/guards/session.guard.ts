@@ -5,14 +5,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import type { Request } from 'express';
-import type { AuthUser } from '@vecta/shared-types';
+import type { Athlete } from '@vecta/shared-types';
 import { SESSION_COOKIE_NAME } from '../cookie.util';
 import type { SessionService } from '../session.service';
 
 declare module 'express' {
   interface Request {
     /** Populated by SessionGuard when the session is valid. */
-    user?: AuthUser;
+    athlete?: Athlete;
     sessionId?: string;
   }
 }
@@ -30,12 +30,12 @@ export class SessionGuard implements CanActivate {
     if (!found) throw new UnauthorizedException();
 
     request.sessionId = found.session.id;
-    request.user = {
-      id: found.user.id,
-      email: found.user.email,
-      firstName: found.user.firstName,
-      lastName: found.user.lastName,
-      birthDate: found.user.birthDate.toISOString().slice(0, 10),
+    request.athlete = {
+      id: found.athlete.id,
+      email: found.athlete.email,
+      firstName: found.athlete.firstName,
+      lastName: found.athlete.lastName,
+      birthDate: found.athlete.birthDate.toISOString().slice(0, 10),
     };
     return true;
   }

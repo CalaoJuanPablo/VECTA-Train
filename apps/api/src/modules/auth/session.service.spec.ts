@@ -3,7 +3,7 @@ import { SessionService } from './session.service';
 
 interface SessionRow {
   id: string;
-  userId: string;
+  athleteId: string;
   expiresAt: Date;
   createdAt: Date;
   lastUsedAt: Date;
@@ -16,13 +16,13 @@ interface PrismaStub {
     delete: ReturnType<typeof vi.fn>;
     update: ReturnType<typeof vi.fn>;
   };
-  user: unknown;
+  athlete: unknown;
 }
 
 function buildPrismaStub(): PrismaStub {
   return {
     session: { create: vi.fn(), findUnique: vi.fn(), delete: vi.fn(), update: vi.fn() },
-    user: {},
+    athlete: {},
   };
 }
 
@@ -38,10 +38,10 @@ describe('SessionService', () => {
   it('creates a session with a 30-day expiry and a base64url id', async () => {
     prisma.session.create.mockResolvedValueOnce({} as SessionRow);
 
-    await service.create('user-1');
+    await service.create('athlete-1');
 
     const call = prisma.session.create.mock.calls[0][0];
-    expect(call.data.userId).toBe('user-1');
+    expect(call.data.athleteId).toBe('athlete-1');
     expect(call.data.id).toMatch(/^[A-Za-z0-9_-]+$/);
     expect(call.data.id.length).toBeGreaterThanOrEqual(40);
     const thirtyDays = 1000 * 60 * 60 * 24 * 30;
@@ -59,33 +59,39 @@ describe('SessionService', () => {
     expect(await service.findById('missing')).toBeNull();
   });
 
-  it('findById returns the session and user when not expired', async () => {
+  it('findById returns the session and athlete when not expired', async () => {
     const future = new Date(Date.now() + 60_000);
-    const user = { id: 'user-1' };
+    const athlete = { id: 'athlete-1' };
     prisma.session.findUnique.mockResolvedValueOnce({
       id: 'sid',
-      userId: 'user-1',
+      athleteId: 'athlete-1',
       expiresAt: future,
       createdAt: new Date(),
       lastUsedAt: new Date(),
-      user,
+      athlete,
     });
 
     const found = await service.findById('sid');
     expect(found).toEqual({
-      session: expect.objectContaining({ id: 'sid', userId: 'user-1' }),
-      user,
+      session: expect.objectContaining({ id: 'sid', athleteId: 'athlete-1' }),
+      athlete,
+    });
+    // Confirms the relation was included — catches a future regression where someone
+    // forgets `include: { athlete: true }` and the wire-mapping blows up at runtime.
+    expect(prisma.session.findUnique).toHaveBeenCalledWith({
+      where: { id: 'sid' },
+      include: { athlete: true },
     });
   });
 
   it('findById returns null and deletes the session when expired', async () => {
     prisma.session.findUnique.mockResolvedValueOnce({
       id: 'sid',
-      userId: 'user-1',
+      athleteId: 'athlete-1',
       expiresAt: new Date(Date.now() - 1000),
       createdAt: new Date(),
       lastUsedAt: new Date(),
-      user: { id: 'user-1' },
+      athlete: { id: 'athlete-1' },
     });
     prisma.session.delete.mockResolvedValueOnce(undefined);
 

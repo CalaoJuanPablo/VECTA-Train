@@ -49,9 +49,9 @@ export class AuthController {
     @Body() body: SignUpDto,
     @Res({ passthrough: true }) res: Response,
   ): Promise<AuthResponse> {
-    const { user, sessionId } = await this.auth.signUp(body);
+    const { athlete, sessionId } = await this.auth.signUp(body);
     setSessionCookie(res, sessionId, readCookieConfig());
-    return { user };
+    return { athlete };
   }
 
   @Post('sign-in')
@@ -61,9 +61,9 @@ export class AuthController {
     @Body() body: SignInDto,
     @Res({ passthrough: true }) res: Response,
   ): Promise<AuthResponse> {
-    const { user, sessionId } = await this.auth.signIn(body);
+    const { athlete, sessionId } = await this.auth.signIn(body);
     setSessionCookie(res, sessionId, readCookieConfig());
-    return { user };
+    return { athlete };
   }
 
   @Post('sign-out')
@@ -80,6 +80,6 @@ export class AuthController {
   @Get('me')
   @UseGuards(SessionGuard)
   me(@Req() req: Request): AuthResponse {
-    return { user: req.user! };
+    return { athlete: req.athlete! };
   }
 }
