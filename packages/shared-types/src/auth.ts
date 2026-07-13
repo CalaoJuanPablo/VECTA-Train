@@ -4,7 +4,7 @@
  * stays in sync via this module.
  */
 
-export interface AuthUser {
+export interface Athlete {
   id: string;
   email: string;
   firstName: string;
@@ -28,5 +28,5 @@ export interface SignUpInput {
 }
 
 export interface AuthResponse {
-  user: AuthUser;
+  athlete: Athlete;
 }

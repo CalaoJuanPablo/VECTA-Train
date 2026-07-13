@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Athlete {
   id           String    @id @default(cuid())
   email        String    @unique
   firstName    String
@@ -18,18 +18,18 @@ model User {
   updatedAt    DateTime  @updatedAt
   sessions     Session[]
 
-  @@map("users")
+  @@map("athletes")
 }
 
 model Session {
   id         String   @id
-  userId     String
+  athleteId  String
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   lastUsedAt DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  athlete    Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
+  @@index([athleteId])
   @@index([expiresAt])
   @@map("sessions")
 }
