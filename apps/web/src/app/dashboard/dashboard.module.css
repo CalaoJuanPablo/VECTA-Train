@@ -1,4 +1,4 @@
-@import '@vecta/design-system/src/layers.css';
+@import "@vecta/design-system/src/layers.css";
 
 @layer core {
   .page {
@@ -12,15 +12,12 @@
 
   .card {
     width: 100%;
-    max-width: 420px;
+    max-width: 520px;
     padding: var(--vt-space-10);
     background-color: var(--vt-color-surface);
     border: 1px solid var(--vt-color-border-subtle);
     border-radius: var(--vt-radius-xl);
     box-shadow: var(--vt-shadow-md);
-  }
-
-  .form {
     display: flex;
     flex-direction: column;
     gap: var(--vt-space-6);
@@ -30,7 +27,15 @@
     display: flex;
     flex-direction: column;
     gap: var(--vt-space-2);
-    text-align: center;
+  }
+
+  .eyebrow {
+    margin: 0;
+    font-size: var(--vt-font-size-xs);
+    font-weight: var(--vt-font-weight-medium);
+    letter-spacing: var(--vt-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--vt-color-text-secondary);
   }
 
   .title {
@@ -40,41 +45,20 @@
     color: var(--vt-color-text-primary);
   }
 
-  .subtitle {
+  .body {
     margin: 0;
-    font-size: var(--vt-font-size-sm);
+    font-size: var(--vt-font-size-body);
     color: var(--vt-color-text-secondary);
   }
 
-  .fields {
-    display: flex;
-    flex-direction: column;
-    gap: var(--vt-space-5);
-  }
-
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--vt-space-4);
-  }
-
-  .forgot {
+  .actions {
     display: flex;
     justify-content: flex-end;
-    font-size: var(--vt-font-size-sm);
-    margin-top: calc(-1 * var(--vt-space-2));
   }
 
-  .switch {
+  .status {
     margin: 0;
-    text-align: center;
     font-size: var(--vt-font-size-sm);
     color: var(--vt-color-text-secondary);
-  }
-
-  .error {
-    margin: 0;
-    font-size: var(--vt-font-size-xs);
-    color: var(--vt-color-text-danger);
   }
 }
