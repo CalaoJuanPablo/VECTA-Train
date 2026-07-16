@@ -86,4 +86,15 @@ describe('DashboardPage', () => {
     });
     expect(replace).toHaveBeenCalledWith('/login');
   });
+
+  it('renders the Loading… state while the /auth/me check is in flight', async () => {
+    // Return a never-resolving promise so the component stays in the
+    // 'loading' state for the duration of the assertion.
+    meMock.mockReturnValueOnce(new Promise(() => {}));
+    const { default: DashboardPage } = await import('./page');
+    render(<DashboardPage />);
+
+    expect(screen.getByText('Loading…')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Sign out' })).not.toBeInTheDocument();
+  });
 });
