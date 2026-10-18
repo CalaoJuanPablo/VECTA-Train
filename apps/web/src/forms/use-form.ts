@@ -53,6 +53,7 @@ export function useForm<Schema extends z.ZodType>({
   const setTouched = (field: StringKeys<Input>) => api.getState().setTouched(id, field);
 
   const reset = () => api.getState().reset(id);
+  const clearErrors = () => api.getState().setErrors(id, {});
 
   /** Spread onto a design-system field to wire value/error/change/blur. */
   const fieldProps = (field: StringKeys<Input>) => ({
@@ -98,6 +99,7 @@ export function useForm<Schema extends z.ZodType>({
     setValue,
     setTouched,
     reset,
+    clearErrors,
     fieldProps,
     handleSubmit,
   };
