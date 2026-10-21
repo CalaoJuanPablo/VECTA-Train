@@ -1,13 +1,7 @@
 node_modules
 dist
 .next
-.env
-.env.local
+.env.*
+!.env.example
 *.log
-.turbo
 .DS_Store
-storybook-static
-next-env.d.ts
-
-# Local AI tooling cache (skill registry, fingerprints, etc.) — not for VCS
-.atl/

@@ -4,155 +4,89 @@ Guidance for AI coding agents working in this repo. Read this before making chan
 
 ## Project
 
-VECTA Train ingests wearable running data (Strava/COROS), computes Banister TRIMP per activity, aggregates weekly load, and shows it on a dashboard. Phase 1 is deterministic analytics only.
+VECTA Train ingests wearable running data (Strava/COROS), computes Banister TRIMP per activity, aggregates weekly load, and shows it on a dashboard. Phase 1 is deterministic analytics only — auth, feature flags, and the first UI surfaces.
 
-**Out of scope for Phase 1 — do not implement, even if asked in a vague ticket:**
+The full architecture, modules, and constraints are defined in [`docs/1-architecture/`](docs/1-architecture/prd.md). Start there: read the PRD, then pull whichever spec covers your ticket.
 
-- AI coaching / "Coach Brain" logic (module exists as an inert stub only)
+**Out of scope — flag, don't build:**
+
+- AI coaching / Coach Brain logic (inert stub only)
 - Automated training plan generation
 - Injury prediction, nutrition/recovery modeling, multi-sport optimization
 
-If a task description implies any of the above, flag it instead of building it.
+## Documentation workflow
 
-The intended target stack and modules are described in **"Phase 1 scope"** below. **None of those modules exist yet** — the repo is a monorepo scaffold plus a first frontend feature (the login page). Treat Phase 1 as the destination, not the current state: do not implement Phase 1 modules without an explicit ticket, but write new code in a way that won't paint us into a corner when they land.
-
-## Repo state
-
-What's actually here today:
+Every new feature is documented as a PRD plus one or more specs:
 
 ```
-apps/
-  api/    NestJS 11 backend — Postgres + Prisma. Modules:
-            src/prisma/                       # global PrismaService (lifecycle-managed client)
-            src/modules/auth/                 # sign-up, sign-in, sign-out, /me + SessionGuard
-            src/items/                        # generic in-memory CRUD placeholder (pre-Phase 1)
-          Endpoints: GET /health, GET /items, POST /items,
-                     POST /auth/sign-up, POST /auth/sign-in,
-                     POST /auth/sign-out, GET /auth/me.
-          Compiles to CommonJS. Local Postgres via `pnpm --filter @vecta/api db:up`.
-  web/    Next.js 16 (App Router) + React 19
-          src/app/
-            layout.tsx, page.tsx          # home / static placeholder
-            theme-script.tsx             # client component, sets data-theme + data-color-scheme on <html> from prefers-color-scheme
-            login/                       # sign-in & sign-up UI; submit handlers call the api, redirect to /dashboard
-            dashboard/                   # client page that calls /auth/me; redirects to /login on 401
-          src/forms/                     # FormsProvider + useForm (zustand-backed, named forms per provider)
-          src/lib/api-client.ts          # fetch wrapper with auth.{signUp,signIn,signOut,me};
-                                          # reads NEXT_PUBLIC_API_URL (default http://localhost:3001);
-                                          # always sends credentials: 'include' for cross-origin cookies
-
-packages/
-  design-system/   @vecta/design-system — see "Design system" below
-  shared-types/    @vecta/shared-types — TS source, consumed directly
-                   exports `Item` and auth types (`AuthUser`, `SignInInput`, `SignUpInput`, `AuthResponse`)
-  eslint-config/   @vecta/eslint-config — eslint-config-love + prettier
+docs/
+  1-feature-title/
+    prd.md
+    spec-1-*.md
+    spec-2-*.md
+    ...
 ```
 
-Notes:
+- `prd.md` covers *what* and *why* — problem, goals, non-goals, constraints. No packages, no files, no code.
+- `spec-*.md` files cover *how* — concrete stack, module boundaries, code examples, file paths, and acceptance criteria for the implementing agent.
 
-- There is **no Tailwind** in this repo. Every UI surface uses `@vecta/design-system`. The home page (`apps/web/src/app/page.tsx`) is a static placeholder.
-- Auth uses server-side sessions stored in Postgres. Cookie name: `vt_sid` (httpOnly, SameSite=Lax, Secure in prod). No JWT signing — the cookie value is an opaque session id.
-- Cross-origin caveat (web on Vercel, api on Render on `*.onrender.com`): the dashboard page calls `/auth/me` from the browser. A server-rendered auth check on the web origin would need either a shared parent domain (only possible once both apps move to a shared parent) or a Next.js Route Handler proxy — both deferred. Local dev runs the api on `localhost:3001` against the docker-compose Postgres, not against Render.
-- Tests exist for design-system components, `useForm`, the login form, the dashboard page, and `AuthService` + `SessionService`.
-
-### Phase 1 scope (planned — not yet implemented)
-
-When these modules are added, the rules below apply. Do not build any of this speculatively; only implement the pieces an explicit ticket calls for.
-
-- **Frontend** (`apps/web`): dashboard, activities list, activity detail, calendar, insights, settings.
-- **Backend** (`apps/api`) NestJS — modules under `src/modules/`:
-  - `athletes/` (profile + `AthleteSettings.weekStartDay`)
-  - `activities/` (CRUD + listing, grouped by week)
-  - `trimp/formulas/` (versioned, e.g. `banister-v1.ts`)
-  - `sync/providers/` (Strava, COROS)
-  - `weekly-load/` (aggregation)
-  - `coach-brain/` — **inert stub only.** No real coaching logic in Phase 1.
-- **DB**: PostgreSQL + Prisma (pgvector reserved for future Coach Brain embeddings — not used in Phase 1 queries).
-- **Jobs/Queue**: BullMQ + Redis for sync jobs.
-- **Hosting**: Vercel (web); Render (api + Postgres). BullMQ + Redis when sync lands, likely a Render Background Worker rather than the api Web Service. Local dev: docker-compose Postgres on port 5433.
-
-**Out of scope — flag, don't build**: AI coaching / Coach Brain logic beyond the inert stub, automated training plan generation, injury prediction, nutrition/recovery modeling, multi-sport optimization.
+When you start a new feature, create `docs/N-feature-title/` and write the PRD **before** writing any code. Update specs as implementation decisions land.
 
 ## Stack
 
-- **Monorepo**: Turborepo 2 + pnpm 11 workspaces, Node >= 24
-- **Backend**: `apps/api` — NestJS 11, TypeScript 6, ESLint 10, compiles to **CommonJS**
-- **Frontend**: `apps/web` — Next.js 16 (App Router), React 19, TypeScript 6, `moduleResolution: "bundler"`
-- **Web state**: zustand (UI state, e.g. `auth-ui-store`); custom **Forms Provider** for form state (multiple named forms per provider, zustand-backed) — see `apps/web/src/forms/`
-- **Web validation**: zod schemas co-located with forms (e.g. `apps/web/src/app/login/schemas.ts`)
-- **Web API access**: `apps/web/src/lib/api-client.ts` — fetch wrapper; reads `NEXT_PUBLIC_API_URL` (defaults `http://localhost:3001`)
-- **Design system**: `@vecta/design-system` — see below
-- **Shared types**: `@vecta/shared-types` — TS source, consumed directly (no build step)
-- **Lint/format**: ESLint via `@vecta/eslint-config` (extends `eslint-config-love` + `eslint-config-prettier`); Prettier for formatting
-- **Tests**: Vitest + `@testing-library/react` + jsdom, in `apps/web` and `packages/design-system`. API uses Vitest in `node` env (no jsdom). Run without starting the Next dev server.
+- pnpm workspaces; `client/` (Vite + React 19) and `server/` (Fastify + tRPC + Drizzle); Node 24 + PostgreSQL 18.
+- Lint + format: Biome (single config). Boundary enforcement: dependency-cruiser.
+- Tests: Vitest in both workspaces.
+
+For pinned versions and rationale see [`spec-1-stack-and-foundation.md`](docs/1-architecture/spec-1-stack-and-foundation.md).
 
 ## Design system
 
-`@vecta/design-system` is the source of truth for every UI surface in this repo. Apply the `vecta-design-system` skill for any UI work — do not invent ad-hoc colors, fonts, or spacing.
-
-- **CSS foundation**: design tokens as `--vt-*` custom properties under `src/tokens/` (base + semantic); themes in `src/themes/` (light + dark); cascade layers in `src/layers.css` with fixed order `reset, tokens, theme, core, overrides`. Token CSS is deep-imported by `apps/web/src/app/layout.tsx`.
-- **Styling pattern**: CSS Modules. Each `*.module.css` does `@import '@vecta/design-system/src/layers.css'` then wraps rules in `@layer core { ... }`, using `var(--vt-*)` tokens.
-- **Component organization**: atomic design under `src/components/`
-  - `atoms/` — Button, TextLink
-  - `molecules/Fields/` — Field + TextField/EmailField/PasswordField/DateField
-  - `organisms/` — reserved (empty)
-- **Components are pure-visual.** No form logic, no API calls. Form state, errors and validation live in the consuming app (via `useForm`); DS field components only render markup + ARIA wiring.
-- **Each component has co-located `*.test.tsx` and `*.stories.tsx`.**
-- **No build step.** Consumed from source: `package.json` `main`/`types` → `src/components/index.ts`; `apps/web/next.config.js` lists it in `transpilePackages`. Vitest must inline it (`test.server.deps.inline: [/@vecta\/design-system/]`).
-- **Storybook** (`@storybook/react-vite` v10) — `pnpm --filter @vecta/design-system storybook` / `build-storybook`. Config in `.storybook/`; `preview.ts` imports token/theme CSS globally. `esbuild` is listed in `pnpm-workspace.yaml` `allowBuilds` for Storybook's bundler.
-- **Theme switching**: `apps/web/src/app/theme-script.tsx` sets `data-theme` + `data-color-scheme` on `<html>` from `prefers-color-scheme`. Light/dark are CSS-layer overrides in `packages/design-system/src/themes/{light,dark}.css`, not React state.
+Apply the `vecta-design-system` skill for any UI work — do not invent colors, fonts, or spacing. Tokens, themes, and components live in `client/src/ui/` and are consumed from source.
 
 ## Commands
 
 ```bash
 pnpm install
-pnpm dev            # turbo run dev — api on :3001, web on :3000
-pnpm build          # turbo run build
-pnpm lint           # turbo run lint
-pnpm test           # turbo run test (api, web, DS)
-pnpm format         # prettier --write .
-pnpm format:check   # prettier --check .
+pnpm dev                 # vite on :5173, fastify on :3001
+pnpm build
+pnpm lint                # biome + depcruise
+pnpm test                # vitest across both workspaces
+pnpm format              # biome format --write .
 
 # Per-package
-pnpm --filter @vecta/api db:up              # docker compose up -d postgres
-pnpm --filter @vecta/api prisma:migrate     # apply schema to local DB
-pnpm --filter @vecta/api start:dev          # nest start --watch
-pnpm --filter @vecta/api test               # vitest run (api)
-pnpm --filter @vecta/web dev                # next dev
-pnpm --filter @vecta/web test               # vitest run (web)
-pnpm --filter @vecta/web lint:fix           # eslint . --fix
-pnpm --filter @vecta/design-system test     # vitest run (DS)
-pnpm --filter @vecta/design-system storybook # DS docs on :6006
+pnpm --filter server db:migrate             # drizzle-kit migrate
+pnpm --filter server db:generate            # drizzle-kit generate
+pnpm --filter server user:promote <email>   # grant admin
+pnpm --filter client storybook              # DS docs on :6006
 ```
-
-> Turbo `lint` and `test` declare `dependsOn: ["^build"]` (`turbo.json`), so a single-package lint or test still builds every workspace package first.
 
 ## Release & PR workflow
 
 - **PR titles** must follow Conventional Commits. Allowed types (enforced by `.github/workflows/pr-title.yml`): `feat`, `fix`, `chore`, `docs`, `refactor`, `perf`, `test`, `build`, `ci`, `revert`.
 - **Opened PRs auto-flip to draft** via `.github/workflows/default-draft.yml`. Mark the PR ready for review only when it's actually ready.
 - **Releases** run via `semantic-release` on push to `main` (`.releaserc.json` → `branches: ["main"]`). Don't hand-bump versions; the release commit is generated.
-- **Branches**: `main` is always releasable. It only contains finished work. Features should checkout from the most recent `main` and PR to that branch. No direct push to main are allowed.
+- **Branches**: `main` is always releasable. Features should checkout from the most recent `main` and PR to that branch. No direct pushes to `main`.
 
 ## Conventions
 
+- **Don't commit without explicit authorization.** Stage the work, summarise what is about to be committed, and wait for the user to say "commit" (or equivalent) before running `git commit`. This applies to every commit, including docs-only changes and follow-up fixes; no commit is implicit.
 - **TypeScript strict everywhere** (`tsconfig.base.json` has `strict: true`). No `any` without justification.
-- **Module style differs per app.** `apps/api` compiles to CommonJS (`module: "commonjs"`); `apps/web` and `packages/design-system` use `moduleResolution: "bundler"`. Don't copy TS configs between them — it silently breaks the API build.
-- **NestJS module layout** (when domain modules land): one folder per domain — `*.module.ts`, `*.controller.ts`, `*.service.ts`, `dto/`. Use NestJS DI; don't `new` services up.
-- **Shared request/response shapes** go in `packages/shared-types`. Import from there in both apps — don't redefine the same interface in `apps/web` and `apps/api`.
+- **Layering is enforced mechanically** by dependency-cruiser. `domain` never imports `data`, `transport`, `db`, or any framework. See [`spec-1-stack-and-foundation.md`](docs/1-architecture/spec-1-stack-and-foundation.md) § "Boundary enforcement" for the full rule set.
+- **Shared request/response shapes** go in a shared package. Don't redefine the same interface in `client/` and `server/`.
 - **Secrets**: OAuth provider tokens must be encrypted at rest. Never log raw tokens or payloads that contain them.
 - **Tests**: Vitest + RTL, run under jsdom. Behavior tests, not implementation tests. Co-locate `*.test.ts(x)` next to the file under test.
 - **Don't code outside the prompt.** Ask questions if anything is unclear before writing the first line of code.
 
 ## Things to know before building the next layer
 
-These are guardrails so new code doesn't block Phase 1 work:
+These are guardrails so new code doesn't block later work. They are also encoded as constraints in [`prd.md`](docs/1-architecture/prd.md):
 
 1. **Don't hardcode week boundaries** to Monday. When weekly aggregation lands it must respect `AthleteSettings.weekStartDay`; default Monday only when unset.
 2. **TRIMP must tolerate missing HR.** When the formula lands, missing `avgHR` should store `trimpValue: null` and let the sync pipeline continue — never throw.
-3. **TRIMP formula versioning.** When the formula lands, never edit `banister-v1.ts` in place. Add `banister-v2.ts` and a new `formulaVersion` value so v1 records stay reproducible.
+3. **TRIMP formula versioning.** When the formula lands, never edit `banister-v1.ts` in place. Add `banister-v2.ts` and a new `formulaVersion` so v1 records stay reproducible.
 4. **Idempotent sync.** When ingestion lands, dedupe on `(athleteId, provider, externalId)`.
-5. **Coach Brain is a stub.** Do not add real coaching logic to `apps/api/src/modules/coach-brain/` until Phase 2.
-6. **API client.** Add new endpoints to `apps/web/src/lib/api-client.ts`; don't open-code `fetch(...)` calls in components.
-7. **Auth.** All new endpoints that touch athlete data must be guarded with `SessionGuard` (`apps/api/src/modules/auth/guards/session.guard.ts`). The browser sends the `vt_sid` cookie via `credentials: 'include'` — preserve that on every api call.
-8. **Cross-origin auth.** The api origin (Render) issues the session cookie. Server components on the web origin (Vercel) can't read it via `next/headers`. When a server-rendered auth check is needed, either set the cookie with a `Domain=` that covers both origins (only possible if both apps move to a shared parent domain) or proxy the request through a Next.js Route Handler — do not switch the api origin to read the web domain's cookies.
+5. **Coach Brain is a stub.** Do not add real coaching logic until Phase 2.
+6. **API access.** All requests go through the tRPC client in `client/src/trpc.ts`; don't open-code `fetch(...)` calls in components.
+7. **Auth.** All procedures that touch athlete data must be guarded with `protectedProcedure` or `adminProcedure`. The browser sends the `vt_sid` cookie via `credentials: 'include'` — preserve that on every api call.
+8. **Same origin.** SPA and API share an origin in production (Vercel monolith). No CORS configuration in production; the session cookie is first-party.
