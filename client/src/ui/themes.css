@@ -1,0 +1,9 @@
+@import "./layers.css";
+@import "./themes/dark.css";
+@import "./themes/light.css";
+
+/**
+ * Themes re-declare token values inside `@layer theme`, scoped by
+ * `data-theme`. Dark is the default, so it declares nothing — its values live in
+ * the token layer. Light only flips surfaces, borders and text (spec-4 § 1).
+ */

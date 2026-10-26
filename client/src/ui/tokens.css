@@ -1,0 +1,8 @@
+@import "./layers.css";
+@import "./tokens/base.css";
+@import "./tokens/semantic.css";
+
+/**
+ * Entry point for the token layer. Import order is base → semantic, so the
+ * reference chain is `component → semantic → base → literal`.
+ */

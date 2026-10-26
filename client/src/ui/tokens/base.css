@@ -1,0 +1,80 @@
+/* Tier 1 — base / primitive tokens. Raw, context-free values. */
+
+@layer tokens {
+  :root {
+    /* colour */
+    --vt-color-accent: #00e5a0;
+    --vt-color-accent-strong: #00c489;
+    --vt-color-on-accent: #06281d;
+    --vt-color-positive: #00e5a0;
+    --vt-color-warning: #ff9d3d;
+    --vt-color-info: #4aa8ff;
+    --vt-color-danger: #ff5c5c;
+    --vt-color-strava: #fc5200;
+    --vt-color-coros: #12b5cb;
+
+    /* data-viz palette — fixed per series, identical on every screen */
+    --vt-color-viz-hr: #4aa8ff;
+    --vt-color-viz-effort: #ff9d3d;
+    --vt-color-viz-alt: #a98bff;
+    --vt-color-viz-accent: #00e5a0;
+
+    /* spacing — 4px base */
+    --vt-space-0: 0;
+    --vt-space-1: 4px;
+    --vt-space-2: 8px;
+    --vt-space-3: 12px;
+    --vt-space-4: 16px;
+    --vt-space-5: 20px;
+    --vt-space-6: 24px;
+    --vt-space-8: 32px;
+    --vt-space-10: 40px;
+    --vt-space-12: 48px;
+    --vt-space-16: 64px;
+
+    /* radii */
+    --vt-radius-sm: 4px;
+    --vt-radius-md: 8px;
+    --vt-radius-lg: 12px;
+    --vt-radius-xl: 16px;
+    --vt-radius-pill: 999px;
+    --vt-radius-circle: 50%;
+
+    /* typography */
+    --vt-font-ui: "Space Grotesk", system-ui, -apple-system, sans-serif;
+    --vt-font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --vt-font-size-display: 32px;
+    --vt-font-size-h1: 24px;
+    --vt-font-size-h2: 18px;
+    --vt-font-size-h3: 15px;
+    --vt-font-size-body: 14px;
+    --vt-font-size-sm: 13px;
+    --vt-font-size-xs: 11px;
+    --vt-font-size-eyebrow: 11px;
+    --vt-font-weight-regular: 400;
+    --vt-font-weight-medium: 500;
+    --vt-font-weight-semibold: 600;
+    --vt-font-weight-bold: 700;
+    --vt-line-height-tight: 1.15;
+    --vt-line-height-body: 1.5;
+    --vt-line-height-relaxed: 1.7;
+    --vt-tracking-tight: -0.01em;
+    --vt-tracking-label: 0.02em;
+    --vt-tracking-eyebrow: 0.09em;
+    --vt-font-feature-tnum: "tnum" 1;
+
+    /* elevation */
+    --vt-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.24);
+    --vt-shadow-md: 0 8px 24px rgb(0 0 0 / 0.32);
+
+    /* motion */
+    --vt-duration-fast: 120ms;
+    --vt-duration-base: 200ms;
+    --vt-ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+    /* layout */
+    --vt-sidebar-width: 232px;
+    --vt-max-content: 1180px;
+    --vt-border-width: 1px;
+  }
+}

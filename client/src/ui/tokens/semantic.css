@@ -1,0 +1,19 @@
+/* Tier 2 — semantic tokens. Intent-based aliases over the base layer. */
+
+@layer tokens {
+  :root {
+    --vt-color-surface-app: light-dark(#fafaf8, #131311);
+    --vt-color-surface: light-dark(#ffffff, #1a1a17);
+    --vt-color-surface-raised: light-dark(#f2f2ef, #232320);
+    --vt-color-surface-sunken: light-dark(#eeeeea, #101010);
+
+    --vt-color-border-subtle: light-dark(#e2e2dd, #2c2c28);
+    --vt-color-border-strong: light-dark(#c6c6bf, #45453f);
+
+    --vt-color-text-primary: light-dark(#1a1a17, #f2f1ec);
+    --vt-color-text-secondary: light-dark(#4a4a44, #b4b3ab);
+    --vt-color-text-muted: light-dark(#77776f, #85847d);
+    --vt-color-text-faint: light-dark(#a3a39b, #5f5f59);
+    --vt-color-text-disabled: light-dark(#bdbdb5, #4a4a45);
+  }
+}

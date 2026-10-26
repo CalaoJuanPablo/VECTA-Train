@@ -1,0 +1,8 @@
+/*
+ * Dark is the default theme, so it declares nothing: its values are the ones in
+ * the token layer. The file exists so adding a dark-specific override later has
+ * an obvious home.
+ */
+@layer theme {
+  /* No overrides yet — dark is the base, not a theme layered on top of one. */
+}

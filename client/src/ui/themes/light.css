@@ -1,0 +1,11 @@
+/*
+ * Light theme: only surfaces, borders, text and shadows flip. Brand and
+ * data-viz colours never change between themes.
+ */
+@layer theme {
+  [data-theme="light"] {
+    --vt-color-accent-strong: #00b981;
+    --vt-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
+    --vt-shadow-md: 0 8px 24px rgb(0 0 0 / 0.08);
+  }
+}

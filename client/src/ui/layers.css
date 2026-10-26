@@ -1,0 +1,6 @@
+/**
+ * The fixed cascade order. Every other stylesheet in the design system declares
+ * its rules inside one of these layers, so specificity never has to be fought
+ * (spec-4 § 1).
+ */
+@layer reset, tokens, theme, core, overrides;

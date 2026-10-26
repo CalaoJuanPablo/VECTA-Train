@@ -93,8 +93,9 @@ Use in component CSS: `@media breakpoint-md { ... }`.
 
 ## Before writing any UI, do this
 
-1. Import the design system in your root layout:
+1. Import the design system in your root layout. **`typography.css` must be the first import** — it declares the `@font-face` rules for `--vt-font-ui` and `--vt-font-mono`, and `reset.css` (next) is the first file that names those families. Without it the typography tokens in `tokens/base.css` resolve to `system-ui` / `Menlo`:
    ```tsx
+   import '@vecta/design-system/src/typography.css';
    import '@vecta/design-system/src/layers.css';
    import '@vecta/design-system/src/reset.css';
    import '@vecta/design-system/src/tokens.css';
