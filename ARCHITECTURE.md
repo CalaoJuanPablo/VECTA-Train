@@ -1,6 +1,6 @@
 # Architecture
 
-VECTA Train is a modular monolith: one repo, two workspaces (`client/`, `server/`), one Postgres database. It ingests wearable running data (Strava/COROS), computes Banister TRIMP per activity, aggregates weekly load, and shows it on a dashboard. Phase 1 is deterministic analytics only.
+VECTA Train is a modular monolith: one repo, two workspaces (`client/`, `server/`), one Postgres database. It ingests wearable running data from Strava API, computes Banister TRIMP per activity, aggregates weekly load, and shows it on a dashboard. Phase 1 is deterministic analytics only.
 
 This file is the map: where code lives, what may depend on what, and which invariants are non-obvious. Stack versions and commands live in [AGENTS.md](AGENTS.md); UI tokens/themes live in the `vecta-design-system` skill.
 
@@ -57,7 +57,6 @@ SPA and API are **separate origins in every environment**, so CORS is required (
 ## Boundaries
 
 Enforced mechanically by `.dependency-cruiser.js` (all `severity: 'error'`) — that file is the source of truth. In one line each:
-
 - Dependencies point inward only: `transport → domain ← data`; no cycles.
 - `domain` imports nothing from `transport/`, `data/`, `db/`, `trpc/`, `plugins/`, and no framework (`fastify`, `@trpc/*`, `drizzle-orm`, `pg`, `zod`, …). Domain services are unit-tested with in-memory fakes of their ports — no database, no mocking library.
 - `data` never imports `transport` or transport frameworks; it owns SQL and the pool.
@@ -69,7 +68,6 @@ Enforced mechanically by `.dependency-cruiser.js` (all `severity: 'error'`) — 
 ## Invariants
 
 True and non-obvious; newcomers cannot derive these from the code quickly:
-
 - **TRIMP tolerates missing HR.** Absent `avgHR` stores `trimpValue: null` and the sync pipeline continues — it never throws.
 - **TRIMP formulas are versioned.** `banister-v1.ts` is never edited in place; a change adds `banister-v2.ts` and a new `formulaVersion` so historical records stay reproducible.
 - **Sync is idempotent.** Ingestion dedupes on `(athleteId, provider, externalId)`.
