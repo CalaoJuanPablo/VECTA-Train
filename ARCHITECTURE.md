@@ -23,6 +23,7 @@ vecta-train/
 │   ├── server.ts           Fastify entrypoint (also Vercel's)
 │   └── router.ts           tRPC app router (currently getHello)
 ├── scripts/                build & lint helpers (check-ts-extensions.mjs)
+├── e2e/, playwright.config.ts  Playwright smoke tests; the config boots client + server
 ├── .dependency-cruiser.js  mechanical layer-boundary enforcement
 ├── docker-compose.yml      local Postgres 18 (host port 5433)
 └── tsconfig.base.json      shared strict TS config + `@vecta/*` type-only aliases
