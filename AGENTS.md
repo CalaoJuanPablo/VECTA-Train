@@ -9,7 +9,7 @@ VECTA Train ingests wearable running data from Strava API, computes Banister TRI
 ## Stack
 
 - pnpm workspace (`pnpm@12.15.0`, Node >= 24) with two packages: `client/` and `server/`.
-- **Client** — Vite 8, React 19, TanStack Query 5, tRPC 11 via `@trpc/tanstack-react-query`. Styling is plain CSS (cascade layers + design tokens); no Tailwind, no CSS-in-JS, no router.
+- **Client** — Vite 8, React 19, TanStack Query 5, tRPC 11 via `@trpc/tanstack-react-query`. Styling is plain CSS (cascade layers + design tokens); no Tailwind, no CSS-in-JS. Client-side routing is React Router in data-router mode: one route table in `client/src/router.tsx`, mounted at the app root; the backlog lives in `docs/features/client-router/00-backlog.md`.
 - **Server** — Fastify 5 with `@fastify/cors`, tRPC 11 via the Fastify adapter. Drizzle ORM + `pg` are installed but there is no schema or DB code yet; `drizzle.config.ts` expects `server/src/db/schema.ts`.
 - **Database** — PostgreSQL 18 locally via `docker-compose.yml`, published on host port `5433`.
 - **Tooling** — TypeScript 7 (strict, `noEmit`), Biome 2 for lint/format, dependency-cruiser 18 for boundaries, Vitest 5 (+ React Testing Library on the client, Playwright for E2E). `tsx` runs the server in dev; Vercel bundles it in production.
@@ -30,7 +30,7 @@ pnpm dev                 # vite on :5173, fastify on :3001
 pnpm build               # client build + server typecheck (server emits nothing)
 pnpm typecheck
 pnpm lint                # biome + depcruise
-pnpm test                # vitest in both workspaces; exits 1 until a test file exists
+pnpm test                # vitest per workspace; the server workspace still exits 1 until its first test file exists
 pnpm test:e2e            # playwright; boots client + server via webServer (no .env needed)
 pnpm format              # biome format --write .
 
@@ -66,7 +66,7 @@ Two Vercel projects are built from this repo; each sets its **Root Directory** t
 - **TypeScript strict everywhere** (`tsconfig.base.json` has `strict: true`). No `any` without justification.
 - **Layering, import extensions, and secrets** — see ARCHITECTURE.md → Boundaries and Invariants. `pnpm lint` enforces the boundaries mechanically; follow the target module shape when adding modules.
 - **Shared types** flow from the server: the client imports them type-only through the `@vecta/*` path aliases in `tsconfig.base.json` (`@vecta/server/router`, `@vecta/client/*`). Don't duplicate request/response interfaces in `client/`.
-- **Tests**: Vitest in both workspaces — jsdom + React Testing Library for `client/` (jest-dom matchers via `client/src/test/setup.ts`), node for `server/`. Behavior tests, not implementation tests. Co-locate `*.test.ts(x)` next to the file under test. E2E lives in the root-level `e2e/` folder, driven by `playwright.config.ts` (repo root), which boots the Vite client and Fastify server itself; run `pnpm exec playwright install` once per machine. Keep E2E smoke-level — integration concerns belong in Vitest.
+- **Tests**: Vitest in both workspaces — jsdom + React Testing Library for `client/` (jest-dom matchers via `client/src/test/setup.ts`), node for `server/`. Behavior tests, not implementation tests. Co-locate `*.test.ts(x)` next to the file under test. Client tests resolve `@vecta/*` only because `client/vitest.config.ts` sets `resolve.tsconfigPaths` — keep that in sync with `vite.config.ts`. E2E lives in the root-level `e2e/` folder, driven by `playwright.config.ts` (repo root), which boots the Vite client and Fastify server itself; run `pnpm exec playwright install` once per machine. Keep E2E smoke-level — integration concerns belong in Vitest.
 - **Don't code outside the prompt.** Ask questions if anything is unclear before writing the first line of code.
 - **Suggest update related documentation**: Once we finish any work, suggest to update AGENTS.md and/or ARCHITECTURE.md
 
