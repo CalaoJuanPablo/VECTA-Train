@@ -3,17 +3,15 @@ packages:
   - server
 
 # pnpm 12 gates dependency lifecycle scripts behind an explicit allow-list.
-# argon2 needs a native build; esbuild/rolldown ship platform binaries.
 allowBuilds:
   "@biomejs/biome": true
   "@swc/core": true
-  argon2: true
   esbuild: true
   unrs-resolver: true
 
 # pnpm 12 refuses packages published within `minimumReleaseAge` (24h by
-# default). The stack is pinned by docs/1-architecture/spec-1-stack-and-foundation.md,
-# so these exact versions are exempt rather than silently downgraded.
+# default). The stack is pinned exactly, so these versions are exempt rather
+# than silently downgraded.
 minimumReleaseAgeExclude:
   - vite@8.3.5
   - "@biomejs/*"

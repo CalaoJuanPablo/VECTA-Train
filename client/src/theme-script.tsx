@@ -1,8 +1,8 @@
 /**
  * Applies the theme before first paint so there is no flash of the wrong one.
  * Theme switching is deliberately not React state: it is a `data-theme`
- * attribute on `<html>`, mirrored to `localStorage` and overridden by the OS
- * preference (spec-4 § 1).
+ * attribute on `<html>`, read from `localStorage` and falling back to the OS
+ * preference.
  */
 
 const STORAGE_KEY = 'vt-theme';

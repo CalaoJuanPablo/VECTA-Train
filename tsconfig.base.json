@@ -19,7 +19,11 @@
     "forceConsistentCasingInFileNames": true,
 
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@vecta/server/*": ["./server/src/*"],
+      "@vecta/client/*": ["./client/src/*"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }

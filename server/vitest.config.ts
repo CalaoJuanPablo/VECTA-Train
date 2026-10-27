@@ -4,10 +4,5 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts'],
-    globalSetup: ['src/test/global-setup.ts'],
-    // The database tests truncate shared tables, so files run one at a time.
-    fileParallelism: false,
-    testTimeout: 20_000,
-    hookTimeout: 30_000,
   },
 });

@@ -1,6 +1,5 @@
 /**
- * Boundary enforcement — see `docs/1-architecture/spec-1-stack-and-foundation.md`
- * § "Boundary enforcement". Run as part of `pnpm lint`; a violation fails the build.
+ * Boundary enforcement. Run as part of `pnpm lint`; a violation fails the build.
  *
  * Dependencies point inward only:
  *
@@ -35,7 +34,7 @@ export default {
   forbidden: [
     // Cycles between layers are defects regardless of which tool reports them.
     // Biome's noImportCycles is NOT enabled — it lives in Biome's `project`
-    // domain, which stays off (see spec-5-tooling-and-testing.md).
+    // domain, which stays off.
     {
       name: 'no-circular',
       comment: 'Circular dependency — layers must point inward only.',

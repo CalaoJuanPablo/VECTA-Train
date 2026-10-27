@@ -1,5 +1,5 @@
 # Postgres only. The server and client run natively on the host so that
-# file watching stays on the native filesystem (spec-3 § 1.1).
+# file watching stays on the native filesystem.
 services:
   postgres:
     image: postgres:18-alpine
@@ -11,7 +11,7 @@ services:
       - "5433:5432"
     # PostgreSQL 18 moved its data directory: the image requires a single mount
     # at /var/lib/postgresql (mounting /var/lib/postgresql/data is refused at
-    # startup). See docs/1-architecture/spec-3-deployment.md § 1.1.
+    # startup).
     volumes:
       - vecta-postgres-data:/var/lib/postgresql
 
