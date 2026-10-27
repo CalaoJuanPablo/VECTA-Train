@@ -79,7 +79,7 @@ function validateEarsStatement(statement, lineNumber) {
 
   // If statement contains SHALL (case-sensitive), validate against patterns
   if (trimmed.includes('SHALL')) {
-    const isValidPattern = Object.entries(EARS_PATTERNS).some(([name, pattern]) => {
+    const isValidPattern = Object.entries(EARS_PATTERNS).some(([_name, pattern]) => {
       return pattern.test(trimmed);
     });
 

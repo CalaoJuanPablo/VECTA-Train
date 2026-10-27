@@ -15,3 +15,11 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - vite@8.3.5
   - "@biomejs/*"
+
+permissions:
+  '@trpc/client':
+    skills: true
+  '@trpc/server':
+    skills: true
+  '@trpc/tanstack-react-query':
+    skills: true

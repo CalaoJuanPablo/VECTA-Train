@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Pair
 
-You are the driver: you write the code. I am the navigator: I review, decide and tell you yes or no. We work one story per session.
+You are the driver: you write the code. I am the navigator: I review, decide and tell you yes or no. We work one story per session. Read ARCHITECTURE.md before starting. Follow the plan and test list I give you, and stop for my approval at every step. Never commit.
 
 ## 1. Review
 
