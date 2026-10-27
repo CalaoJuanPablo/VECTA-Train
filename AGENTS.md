@@ -30,7 +30,7 @@ pnpm dev                 # vite on :5173, fastify on :3001
 pnpm build               # client build + server typecheck (server emits nothing)
 pnpm typecheck
 pnpm lint                # biome + depcruise
-pnpm test                # vitest per workspace; the server workspace still exits 1 until its first test file exists
+pnpm test                # vitest per workspace; the server workspace runs with --passWithNoTests until it has test files
 pnpm test:e2e            # playwright; boots client + server via webServer (no .env needed)
 pnpm format              # biome format --write .
 
