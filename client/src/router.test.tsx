@@ -14,6 +14,8 @@ const renderAt = (path: string) => {
       <RouterProvider router={router} />
     </QueryClientProvider>,
   );
+
+  return router;
 };
 
 describe('routes', () => {
@@ -23,9 +25,16 @@ describe('routes', () => {
     expect(screen.getByRole('heading', { name: 'Page not found' })).toBeInTheDocument();
   });
 
-  it('renders the home page at "/"', () => {
+  it('leaves the unknown URL in the location instead of redirecting', () => {
+    const router = renderAt('/this-page-does-not-exist');
+
+    expect(router.state.location.pathname).toBe('/this-page-does-not-exist');
+  });
+
+  it('renders the home page, and not the not-found page, at "/"', () => {
     renderAt('/');
 
     expect(screen.getByRole('heading', { name: 'Welcome to VECTA Train' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Page not found' })).not.toBeInTheDocument();
   });
 });

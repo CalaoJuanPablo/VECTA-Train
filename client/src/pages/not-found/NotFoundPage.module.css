@@ -1,0 +1,28 @@
+@import "../../ui/layers.css";
+
+@layer core {
+  .root {
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    padding: var(--vt-space-6);
+    text-align: center;
+  }
+
+  .content {
+    display: grid;
+    gap: var(--vt-space-2);
+    max-width: var(--vt-max-content);
+  }
+
+  .title {
+    font-size: var(--vt-font-size-h1);
+    letter-spacing: var(--vt-tracking-tight);
+    color: var(--vt-color-text-primary);
+  }
+
+  .message {
+    font-size: var(--vt-font-size-body);
+    color: var(--vt-color-text-secondary);
+  }
+}
