@@ -12,7 +12,7 @@ VECTA Train ingests wearable running data from Strava API, computes Banister TRI
 - **Client** — Vite 8, React 19, TanStack Query 5, tRPC 11 via `@trpc/tanstack-react-query`. Styling is plain CSS (cascade layers + design tokens); no Tailwind, no CSS-in-JS, no router.
 - **Server** — Fastify 5 with `@fastify/cors`, tRPC 11 via the Fastify adapter. Drizzle ORM + `pg` are installed but there is no schema or DB code yet; `drizzle.config.ts` expects `server/src/db/schema.ts`.
 - **Database** — PostgreSQL 18 locally via `docker-compose.yml`, published on host port `5433`.
-- **Tooling** — TypeScript 7 (strict, `noEmit`), Biome 2 for lint/format, dependency-cruiser 18 for boundaries, Vitest 5. `tsx` runs the server in dev; Vercel bundles it in production.
+- **Tooling** — TypeScript 7 (strict, `noEmit`), Biome 2 for lint/format, dependency-cruiser 18 for boundaries, Vitest 5 (+ React Testing Library on the client, Playwright for E2E). `tsx` runs the server in dev; Vercel bundles it in production.
 
 ## Layout & architecture
 
@@ -31,6 +31,7 @@ pnpm build               # client build + server typecheck (server emits nothing
 pnpm typecheck
 pnpm lint                # biome + depcruise
 pnpm test                # vitest in both workspaces; exits 1 until a test file exists
+pnpm test:e2e            # playwright; boots client + server via webServer (no .env needed)
 pnpm format              # biome format --write .
 
 # Per-package
@@ -61,12 +62,13 @@ Two Vercel projects are built from this repo; each sets its **Root Directory** t
 
 ## Conventions
 
-- **Don't commit without explicit authorization.** Stage the work, summarise what is about to be committed, and wait for the user to say "commit" (or equivalent) before running `git commit`. This applies to every commit, including docs-only changes and follow-up fixes; no commit is implicit.
+- **Don't commit without explicit authorization.** Stage the work, summarize what is about to be committed, and wait for the user to say "commit" (or equivalent) before running `git commit`. This applies to every commit, including docs-only changes and follow-up fixes; no commit is implicit.
 - **TypeScript strict everywhere** (`tsconfig.base.json` has `strict: true`). No `any` without justification.
 - **Layering, import extensions, and secrets** — see ARCHITECTURE.md → Boundaries and Invariants. `pnpm lint` enforces the boundaries mechanically; follow the target module shape when adding modules.
 - **Shared types** flow from the server: the client imports them type-only through the `@vecta/*` path aliases in `tsconfig.base.json` (`@vecta/server/router`, `@vecta/client/*`). Don't duplicate request/response interfaces in `client/`.
-- **Tests**: Vitest in both workspaces — jsdom for `client/`, node for `server/`. Behavior tests, not implementation tests. Co-locate `*.test.ts(x)` next to the file under test. React Testing Library is not installed yet; add it if a UI test needs it.
+- **Tests**: Vitest in both workspaces — jsdom + React Testing Library for `client/` (jest-dom matchers via `client/src/test/setup.ts`), node for `server/`. Behavior tests, not implementation tests. Co-locate `*.test.ts(x)` next to the file under test. E2E lives in the root-level `e2e/` folder, driven by `playwright.config.ts` (repo root), which boots the Vite client and Fastify server itself; run `pnpm exec playwright install` once per machine. Keep E2E smoke-level — integration concerns belong in Vitest.
 - **Don't code outside the prompt.** Ask questions if anything is unclear before writing the first line of code.
+- **Suggest update related documentation**: Once we finish any work, suggest to update AGENTS.md and/or ARCHITECTURE.md
 
 ## Things to know before building the next layer
 

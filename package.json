@@ -10,6 +10,7 @@
     "dev": "pnpm --parallel --filter server --filter client dev",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
+    "test:e2e": "playwright test",
     "typecheck": "pnpm -r typecheck",
     "lint": "biome check . && depcruise --config .dependency-cruiser.js server/src client/src && node scripts/check-ts-extensions.mjs",
     "lint:imports": "node scripts/check-ts-extensions.mjs",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.2",
+    "@playwright/test": "^1.64.1",
     "@swc/core": "^1.16.18",
     "dependency-cruiser": "18.7.0",
     "typescript": "7.0.2"
