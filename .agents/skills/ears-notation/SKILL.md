@@ -97,8 +97,4 @@ For detailed patterns and examples:
 
 ## Validation
 
-To validate EARS syntax, use the ears-validator script:
-
-```bash
-node scripts/ears-validator.js docs/features/<feature-name>/NN-<story-name>.md
-```
+There is no validator script. Check each criterion by hand against the patterns above: one uppercase keyword from `THE`/`WHEN`/`WHILE`/`WHERE`/`IF…THEN` plus `SHALL`, one behaviour per line, no `should`/`must`/`will`. The criteria are prose that a reviewer reads, not a file that tooling parses.
