@@ -13,6 +13,9 @@
       "!**/coverage",
       "!**/*.sql",
       "!**/pnpm-lock.yaml",
+      "!**/playwright-report",
+      "!**/test-results",
+      "!**/blob-report",
       "!docs",
       "!.agents"
     ]

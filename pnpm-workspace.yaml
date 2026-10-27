@@ -18,9 +18,9 @@ minimumReleaseAgeExclude:
   - react-router@8.5.1
 
 permissions:
-  '@trpc/client':
+  "@trpc/client":
     skills: true
-  '@trpc/server':
+  "@trpc/server":
     skills: true
-  '@trpc/tanstack-react-query':
+  "@trpc/tanstack-react-query":
     skills: true
