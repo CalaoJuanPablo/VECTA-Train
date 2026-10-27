@@ -11,7 +11,8 @@
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
-    "lint": "biome check . && depcruise --config .dependency-cruiser.js server/src client/src",
+    "lint": "biome check . && depcruise --config .dependency-cruiser.js server/src client/src && node scripts/check-ts-extensions.mjs",
+    "lint:imports": "node scripts/check-ts-extensions.mjs",
     "format": "biome format --write .",
     "db:migrate": "pnpm --filter server db:migrate",
     "db:generate": "pnpm --filter server db:generate"

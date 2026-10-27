@@ -1,7 +1,7 @@
 import fastifyCors from '@fastify/cors';
 import { type FastifyTRPCPluginOptions, fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import fastify from 'fastify';
-import { type AppRouter, appRouter } from './router';
+import { type AppRouter, appRouter } from './router.ts';
 
 // Load `.env` if present (Node 24 native loader, no extra dependency).
 // Already-exported environment variables always win.

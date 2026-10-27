@@ -59,9 +59,9 @@ Each package loads its own `.env`; copy the co-located `.env.example` first. `.e
 ## Deployment
 
 Two Vercel projects are built from this repo; each sets its **Root Directory** to the package directory, so `vercel.json` lives in `client/` and `server/`, not at the repo root.
-
 - **Client project** (`client/vercel.json`) — Vite preset, `pnpm build`, output `dist`, SPA fallback rewrite `/(.*) → /index.html`.
 - **Server project** (`server/vercel.json`) — Fastify preset, `pnpm build`, no rewrites. `src/server.ts` is a Vercel Fastify entrypoint and becomes a single function.
+- **Server module resolution** — Vercel compiles `server/src` file by file and runs the output as ESM, so relative imports must carry the `.ts` extension (`./router.ts`); TypeScript rewrites it to `.js` on emit. Path aliases do not work in server runtime code because `paths` is typecheck-only. `pnpm lint` enforces this.
 - **Environment** — the client reads `VITE_TRPC_URL` (absolute URL ending in `/trpc`; inlined at build time, so it must be set for every Vercel environment). The server reads `DATABASE_URL` and `CORS_ORIGINS` (comma-separated origins); `PORT` and `HOST` are for local runs only.
 - **Cross-origin** — SPA and API are separate origins in every environment, so CORS is required. Preview deployments get unique hostnames; keep `CORS_ORIGINS` in sync, or use Vercel Related Projects to resolve the peer deployment.
 - If session cookies are reintroduced, they will be cross-site: use `SameSite=None; Secure`, enable `credentials` in `@fastify/cors`, and send `credentials: 'include'` on the tRPC link.
@@ -78,6 +78,7 @@ Two Vercel projects are built from this repo; each sets its **Root Directory** t
 - **TypeScript strict everywhere** (`tsconfig.base.json` has `strict: true`). No `any` without justification.
 - **Layering is enforced mechanically** by dependency-cruiser. `domain` never imports `data`, `transport`, `db`, or any framework. The rules expect `server/src/modules/<name>/{domain,data,transport}` plus `server/src/{db,trpc,plugins}`; follow that shape when adding modules.
 - **Shared types** flow from the server: the client imports them type-only through the `@vecta/*` path aliases in `tsconfig.base.json` (`@vecta/server/router`, `@vecta/client/*`). Don't duplicate request/response interfaces in `client/`.
+- **Server relative imports carry the `.ts` extension** (`from './router.ts'`). Vercel emits per-file ESM and Node resolves each specifier literally, so `pnpm lint` fails on extensionless relative imports; `@vecta/*` aliases are typecheck-only and cannot be used in server runtime code. The client is bundled by Vite and keeps extensionless imports.
 - **Secrets**: OAuth provider tokens must be encrypted at rest. Never log raw tokens or payloads that contain them.
 - **Tests**: Vitest in both workspaces — jsdom for `client/`, node for `server/`. Behavior tests, not implementation tests. Co-locate `*.test.ts(x)` next to the file under test. React Testing Library is not installed yet; add it if a UI test needs it.
 - **API access.** All requests go through the tRPC client in `client/src/utils/trpc.ts`; don't open-code `fetch(...)` calls in components, and don't hardcode the API URL.

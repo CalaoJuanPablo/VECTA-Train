@@ -3,7 +3,9 @@
   "compilerOptions": {
     "lib": ["ES2023"],
     "types": ["node"],
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true
   },
   "include": ["src", "drizzle.config.ts", "vitest.config.ts"]
 }
