@@ -4,9 +4,9 @@
 As a visitor, I want an unknown URL to show a not-found (404) page, so that I know the page doesn't exist instead of seeing a broken screen.
 
 ## Acceptance criteria
-- [ ] WHEN a visitor opens a URL that matches no route, THE System SHALL render a not-found page stating that the page doesn't exist.
-- [ ] IF a visitor refreshes a URL that matches no route THEN THE System SHALL render the not-found page again, with the requested URL unchanged in the address bar.
-- [ ] WHEN a visitor opens or refreshes a URL that matches a route, THE System SHALL render that page and not the not-found page.
+- [x] WHEN a visitor opens a URL that matches no route, THE System SHALL render a not-found page stating that the page doesn't exist.
+- [x] IF a visitor refreshes a URL that matches no route THEN THE System SHALL render the not-found page again, with the requested URL unchanged in the address bar.
+- [x] WHEN a visitor opens or refreshes a URL that matches a route, THE System SHALL render that page and not the not-found page.
 
 ## Plan
 - Add one catch-all entry to the existing route table; it renders only when no declared route matches, so future routes never need to know it exists.

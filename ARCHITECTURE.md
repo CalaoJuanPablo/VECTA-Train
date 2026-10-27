@@ -16,7 +16,7 @@ vecta-train/
 │   ├── App.tsx, main.tsx   app root — RouterProvider inside QueryClientProvider
 │   ├── router.tsx          the single route table (React Router data router) — pages register here
 │   ├── theme-script.tsx    sets data-theme before paint — no theme flash, not React state
-│   ├── pages/              screens, one folder per page (currently home/)
+│   ├── pages/              screens, one folder per page (home/, not-found/)
 │   ├── ui/                 design system: tokens/, themes/, reset, layers — consumed from source, no build step
 │   └── utils/trpc.ts       the single tRPC client — components never call fetch
 ├── server/src/
@@ -29,7 +29,7 @@ vecta-train/
 └── tsconfig.base.json      shared strict TS config + `@vecta/*` type-only aliases
 ```
 
-**Client routing** uses React Router in data-router mode: `client/src/router.tsx` is the single route table at the app root (`/` renders the home page today), and unknown URLs will render a not-found page once backlog story #2 lands. Route elements can use TanStack Query/tRPC because `RouterProvider` mounts inside `QueryClientProvider`. See [docs/features/client-router/00-backlog.md](docs/features/client-router/00-backlog.md).
+**Client routing** uses React Router in data-router mode: `client/src/router.tsx` is the single route table at the app root (`/` renders the home page, and a last `*` entry renders the not-found page). Unknown URLs render the not-found page without a redirect, so the address bar keeps the requested URL across refreshes. Route elements can use TanStack Query/tRPC because `RouterProvider` mounts inside `QueryClientProvider`. See [docs/features/client-router/00-backlog.md](docs/features/client-router/00-backlog.md).
 
 **Target** server layout — vertical slices, one folder per domain area:
 
